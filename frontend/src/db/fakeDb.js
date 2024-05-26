@@ -1,0 +1,1 @@
+ export const routes =  [ { from:"Fergana", to : "Tashkent" }]
