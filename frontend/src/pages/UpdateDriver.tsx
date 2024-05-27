@@ -12,6 +12,7 @@ import {
   Container,
   Heading,
   useToast,
+  chakra,
 } from "@chakra-ui/react";
 
 export const UpdateDriver = () => {
@@ -19,6 +20,7 @@ export const UpdateDriver = () => {
   const [location, setLocation] = useState("");
   const [passengers, setPassengers] = useState(1);
   const [message, setMessage] = useState("");
+  const driver = JSON.parse(localStorage.getItem("driver"));
   const toast = useToast();
 
   const handleSubmit = async (e) => {
@@ -64,12 +66,15 @@ export const UpdateDriver = () => {
     <Container centerContent>
       <Box p={5} shadow="md" borderWidth="1px" borderRadius="md">
         <Heading as="h1" size="lg" mb={4}>
-          Update Driver
+          Salom,
+          <chakra.span color="green.300">
+            {driver?.name || "driver"}
+          </chakra.span>
         </Heading>
         <form onSubmit={handleSubmit}>
           <FormControl display="flex" alignItems="center" mb={4}>
             <FormLabel htmlFor="available" mb="0">
-              Available
+              Yo'lovchi olishga tayyorman
             </FormLabel>
             <Switch
               id="available"
@@ -78,15 +83,19 @@ export const UpdateDriver = () => {
             />
           </FormControl>
           <FormControl id="location" mb={4}>
-            <FormLabel>Location</FormLabel>
-            <Input
-              type="text"
+            <FormLabel>Jo'ylashuv</FormLabel>
+
+            <Select
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-            />
+            >
+              <option value={"Toshkent"}>Toshkent</option>
+              <option value={"Fargona"}>Fargona</option>
+              <option value={"Bog'dod"}>Bog'dod</option>
+            </Select>
           </FormControl>
           <FormControl id="passengers" mb={4}>
-            <FormLabel>Number of Passengers</FormLabel>
+            <FormLabel>Yolovchilar soni</FormLabel>
             <Select
               value={passengers}
               onChange={(e) => setPassengers(Number(e.target.value))}
