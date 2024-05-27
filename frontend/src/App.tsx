@@ -15,6 +15,9 @@ import OrderSuccessPage from "./pages/OrderSuccess";
 import VerifyDriver from "./pages/VerifyDriver";
 import TelegramLoginButton from "react-telegram-login";
 import { UpdateDriver } from "./pages/UpdateDriver";
+import AdminPage from "./pages/admin/AdminPage";
+import Sidebar from "./pages/admin/AdminSidebar";
+import AllDrivers from "./pages/admin/AllDrivers";
 const App = () => {
   const { user, tg, setUser } = useTelegram();
   const { checkUserExists, loading } = useApi();
@@ -59,7 +62,7 @@ const App = () => {
 
   return (
     <Router>
-      <Container maxW={"sm"}>
+      <Container maxW={{ base: "sm", md: "100%" }}>
         {!user && (
           <TelegramLoginButton
             dataOnauth={handleTelegramResponse}
@@ -80,6 +83,24 @@ const App = () => {
             <Route path="/driver" element={<VerifyDriver />} />
             <Route path="*" element={<Navigate to="/" />} />
             <Route path="/driver/update" element={<UpdateDriver />} />
+            <Route
+              path="/admin/login"
+              element={
+                <>
+                  <AdminPage />
+                </>
+              }
+            />
+            <Route
+              path="/admin"
+              element={
+                <>
+                  <Sidebar>
+                    <AllDrivers />
+                  </Sidebar>
+                </>
+              }
+            />
           </Routes>
         )}
       </Container>
