@@ -92,7 +92,7 @@ const App = () => {
               }
             />
             <Route
-              path="/admin"
+              path="/admin/drivers"
               element={
                 <>
                   <Sidebar>

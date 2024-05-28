@@ -1,4 +1,5 @@
 const Drivers = require("../models/drivers");
+const socketManager = require('../helpers/socketEmits');
 
 const getAllDrivers = async (req, res) => {
   const allMembers = await Drivers.find({});
@@ -14,7 +15,7 @@ const createDriver = async (req, res) => {
     res.status(500).send("Error: " + err.message);
   }
 };
-const updateDriver = async (req, res) => {
+const updateDriver = async (req, res, io) => { // Pass 'io' as a parameter
   const { id } = req.params;
   const { available, location, passengers } = req.body;
   try {
@@ -26,11 +27,17 @@ const updateDriver = async (req, res) => {
     if (!updatedDriver) {
       return res.status(404).json({ message: "Driver not found" });
     }
+
+    
+    socketManager.emitEvent('driverUpdated');
     res.status(200).json(updatedDriver);
   } catch (error) {
-    res.status(500).json({ message: "Error updating driver", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error updating driver", error: error.message });
   }
 };
+
 const verifyDriver = async (req, res) => {
   const { phoneNumber, password } = req.body;
   try {
