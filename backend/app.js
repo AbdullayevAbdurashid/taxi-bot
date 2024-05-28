@@ -4,8 +4,8 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const { Server } = require("socket.io");
-const { Telegraf } = require('telegraf')
-const { message } = require('telegraf/filters')
+// const { Telegraf } = require('telegraf')
+// const { message } = require('telegraf/filters')
 const http = require("http");
 
 // api routes
