@@ -12,15 +12,19 @@ import {
   Text,
   InputRightAddon,
   InputGroup,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
 } from "@chakra-ui/react";
 import useApi from "../hooks/useSupabase"; // Assuming useApi is where the API calls are defined
 import useTelegram from "../hooks/useTelegram";
 import { useNavigate } from "react-router-dom";
-
-const routes = ["Fergana - Tashkent", "Fargon-Bogdod", "Bogdod-Toshkent"];
+const routes = [
+  "Fergana - Fargʻonadan - Toshkentga,",
+  "Toshkentdan - Fargʻonaga",
+  "Bogʻdod, Rishton, Buvaydadan - Toshkentga",
+  "Bogʻdod, Rishton, Buvaydadan - Toshkentga",
+  "Toshkentdan - Bogʻdod, Rishton, Buvaydaga",
+  "Yaypandan - Toshkentga",
+  "Toshkentdan - Yaypanga",
+];
 
 const OrderForm = () => {
   const navigate = useNavigate();
@@ -30,8 +34,10 @@ const OrderForm = () => {
     routes: "",
     offeredMoney: "",
     numberOfPeople: "",
-    type: "parsel",
+    type: "taxi",
     rideDate: "",
+    rideTime: "",
+    phone: "",
   });
 
   const { createOrder, loading } = useApi(); // Assuming createOrder is a function in useApi hook
@@ -44,7 +50,6 @@ const OrderForm = () => {
       }));
     }
   }, [user]);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -57,7 +62,6 @@ const OrderForm = () => {
     e.preventDefault();
     if (user) {
       const response = await createOrder(formData);
-
       if (response) {
         setFormData({
           tg_id: JSON.stringify(user.id),
@@ -66,6 +70,8 @@ const OrderForm = () => {
           numberOfPeople: "",
           type: "",
           rideDate: "",
+          rideTime: "",
+          phone: "",
         });
         // Redirect to success page
         navigate("/order-success");
@@ -104,23 +110,21 @@ const OrderForm = () => {
 
         <FormControl id="offeredMoney" isRequired>
           <FormLabel>Taklif qilingan summa</FormLabel>
-          <InputGroup>
-            <NumberInput
-              value={formData.offeredMoney}
-              onChange={(valueString) =>
-                handleNumberInputChange(valueString, "offeredMoney")
-              }
-            >
-              <NumberInputField name="offeredMoney" />
-            </NumberInput>
-            <InputRightAddon>000</InputRightAddon>
-          </InputGroup>
+          <NumberInput
+            value={formData.offeredMoney}
+            color={"white"}
+            onChange={(valueString) =>
+              handleNumberInputChange(valueString, "offeredMoney")
+            }
+          >
+            <NumberInputField name="offeredMoney" />
+          </NumberInput>
+          {/* <InputRightAddon>000</InputRightAddon> */}
         </FormControl>
 
         <FormControl id="numberOfPeople" isRequired>
           <FormLabel>Yo'lovchilar soni</FormLabel>
           <NumberInput
-            defaultValue={1}
             min={1}
             max={4}
             value={formData.numberOfPeople}
@@ -128,28 +132,21 @@ const OrderForm = () => {
               handleNumberInputChange(valueString, "numberOfPeople")
             }
           >
-            <NumberInputField
-              defaultValue={1}
-              min={1}
-              max={4}
-              name="numberOfPeople"
-            />
+            <NumberInputField min={1} max={4} name="numberOfPeople" />
           </NumberInput>
         </FormControl>
 
         <FormControl id="type" isRequired>
           <FormLabel>Zakaz turi</FormLabel>
-          <Select
-            name="type"
-            defaultValue="parsel"
-            value={formData.type}
-            onChange={handleChange}
-          >
-            <option value="parsel">Pochta</option>
-            <option value="ride">Taxi</option>
+          <Select name="type" value={formData.type} onChange={handleChange}>
+            <option value="taxi">Taxi</option>
+            <option value="pochta">Pochta</option>
           </Select>
         </FormControl>
-
+        <FormControl id="phone" isRequired>
+          <FormLabel>Telefoningizni kiriting </FormLabel>
+          <Input type="text" name="phone" onChange={handleChange} />
+        </FormControl>
         <FormControl id="rideDate" isRequired>
           <FormLabel>San'ani tanlang</FormLabel>
           <Input
@@ -161,8 +158,24 @@ const OrderForm = () => {
             max={new Date(Date.now() + 86400000).toISOString().slice(0, 10)} // set max date to tomorrow
           />
         </FormControl>
-
-        <Button mt={4} colorScheme="teal" isLoading={loading} type="submit">
+        <FormControl id="rideTime" isRequired>
+          <FormLabel> vaqtni tanlang</FormLabel>
+          <Select
+            name="rideTime"
+            value={formData.rideTime}
+            onChange={handleChange}
+          >
+            {[...Array(24).keys()].map((hour) => (
+              <option
+                key={hour}
+                value={`${hour.toString().padStart(2, "0")}:00`}
+              >
+                {`${hour.toString().padStart(2, "0")}:00`}
+              </option>
+            ))}
+          </Select>
+        </FormControl>
+        <Button mt={4} colorScheme="green" isLoading={loading} type="submit">
           Submit
         </Button>
       </form>

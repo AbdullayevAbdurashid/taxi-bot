@@ -9,18 +9,28 @@ import {
   Container,
   Heading,
   chakra,
+  InputGroup,
+  InputLeftAddon,
 } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 const VerifyDriver = () => {
+  const navigate = useNavigate();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const toast = useToast();
 
+  React.useEffect(() => {
+    const driver = JSON.parse(sessionStorage.getItem("driver"));
+    if (driver) {
+      navigate("/driver/update");
+    }
+  }, [navigate]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/drivers/verify",
+        `${import.meta.env.VITE_API_ENDPOINT}/api/drivers/verify`,
         {
           phoneNumber,
           password,
@@ -29,7 +39,7 @@ const VerifyDriver = () => {
       const { id, name, phoneNumber: driverPhoneNumber } = response.data;
 
       // Store driver information in localStorage
-      localStorage.setItem(
+      sessionStorage.setItem(
         "driver",
         JSON.stringify({ id, name, phoneNumber: driverPhoneNumber })
       );
@@ -39,6 +49,7 @@ const VerifyDriver = () => {
         status: "success",
         duration: 1000,
       });
+      navigate("/driver/update");
     } catch (error) {
       toast({
         title: error.response?.data?.message || "Error verifying driver",
@@ -58,11 +69,15 @@ const VerifyDriver = () => {
         <form onSubmit={handleSubmit}>
           <FormControl id="phoneNumber" mb={4}>
             <FormLabel>Phone Number</FormLabel>
-            <Input
-              type="text"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-            />
+            <InputGroup>
+              <InputLeftAddon>+998</InputLeftAddon>
+              <Input
+                name="phoneNumber"
+                type="tel"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+              />
+            </InputGroup>
           </FormControl>
           <FormControl id="password" mb={4}>
             <FormLabel>Password</FormLabel>

@@ -8,7 +8,6 @@ import {
   Heading,
   Text,
 } from "@chakra-ui/react";
-import axios from "axios";
 
 const AdminAuth = ({ onLogin }) => {
   const [username, setUsername] = useState("");

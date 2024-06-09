@@ -4,6 +4,6 @@ const staffController = require("./../controllers/ordersController");
 
 router.get("/", staffController.getAllOrders);
 router.post("/new", staffController.createOrder);
-router.put("/delete/:id", staffController.deleteOrder);
+router.delete("/delete/:id", staffController.deleteOrder);
 
 module.exports = router;

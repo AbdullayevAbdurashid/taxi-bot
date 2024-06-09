@@ -6,5 +6,6 @@ router.post("/verify", driverController.verifyDriver);
 router.get("/", driverController.getAllDrivers);
 router.post("/new", driverController.createDriver);
 router.put("/update/:id", driverController.updateDriver);
+router.delete("/delete/:id", driverController.deleteDriver);
 
 module.exports = router;

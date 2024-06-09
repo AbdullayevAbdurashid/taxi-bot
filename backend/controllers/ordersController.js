@@ -11,7 +11,6 @@ const getAllOrders = async (req, res) => {
       match: { tg_id: '$tg_id' },
       foreignField: 'tg_id',
       localField: 'tg_id',
-      as: 'user'
     });
     res.send(allOrders);
   } catch (err) {

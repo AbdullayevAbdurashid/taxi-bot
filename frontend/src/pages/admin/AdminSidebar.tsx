@@ -1,7 +1,12 @@
 import { Box, Flex, Icon, Text, Container } from "@chakra-ui/react";
 import { FaUser, FaRss, FaCar } from "react-icons/fa";
-
+import { Link } from "react-router-dom";
 const Sidebar = ({ children }) => {
+  const admin = sessionStorage.getItem("admin");
+
+  if (!admin) {
+    return <Container>Not allowd</Container>;
+  }
   const NavItem = (props) => {
     const { icon, children, ...rest } = props;
     return (
@@ -63,16 +68,20 @@ const Sidebar = ({ children }) => {
         color="gray.600"
         aria-label="Main Navigation"
       >
-        <NavItem icon={FaUser}>Users</NavItem>
-        <NavItem icon={FaCar}>Drivers</NavItem>
-        <NavItem icon={FaRss}>Orders</NavItem>
+        <NavItem icon={FaUser}> Users</NavItem>
+        <Link to={"/admin/drivers"}>
+          <NavItem icon={FaCar}>Drivers</NavItem>
+        </Link>
+        <Link to={"/admin/orders"}>
+          <NavItem icon={FaRss}>Orders</NavItem>
+        </Link>
       </Flex>
     </Box>
   );
   return (
     <Flex as="section" minH="100vh">
       <SidebarContent display={{ base: "none", md: "unset" }} />
-      <Box border={"1px solid red"} w={"100%"}>
+      <Box border={"1px solid white"} w={"100%"}>
         {children}
       </Box>
     </Flex>

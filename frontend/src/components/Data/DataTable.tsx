@@ -1,16 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableContainer,
-  Spinner,
-  Center,
-  Text,
-} from "@chakra-ui/react";
+import MaterialTable from "@material-table/core";
+import { IconButton, useToast } from "@chakra-ui/react";
+import { DeleteIcon } from "@chakra-ui/icons";
 import axios from "axios";
 import { io } from "socket.io-client";
 
@@ -22,9 +13,12 @@ const DataTable = ({
   dataProp = [],
   socketUrl,
   socketEvent,
+  refresh,
+  onDelete,
 }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(fetchData);
+  const toast = useToast();
 
   const fetchDataFromApi = () => {
     if (fetchData) {
@@ -37,6 +31,13 @@ const DataTable = ({
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
+          toast({
+            title: "Error fetching data.",
+            description: "There was an error fetching the data.",
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+          });
           setLoading(false);
         });
     } else {
@@ -47,7 +48,7 @@ const DataTable = ({
 
   useEffect(() => {
     fetchDataFromApi();
-  }, [apiUrl]);
+  }, [apiUrl, refresh]);
 
   useEffect(() => {
     const socket = io(socketUrl);
@@ -63,51 +64,50 @@ const DataTable = ({
     };
   }, [socketUrl, socketEvent]);
 
-  if (loading) {
-    return (
-      <Center>
-        <Spinner size="xl" />
-      </Center>
-    );
-  }
+  // Function to get value from nested fields
+  const getNestedValue = (obj, path) => {
+    return path.split(".").reduce((value, key) => value && value[key], obj);
+  };
 
-  if (data.length === 0) {
-    return (
-      <Center>
-        <Text>No data available</Text>
-      </Center>
-    );
-  }
+  const columns = headers.map((header, index) => ({
+    title: header,
+    field: dataKeys[index],
+  }));
+
+  columns.push({
+    title: "Actions",
+    field: "actions",
+    render: (rowData) => (
+      <IconButton
+        aria-label="Delete order"
+        icon={<DeleteIcon />}
+        colorScheme="red"
+        onClick={() => onDelete(rowData._id)}
+      />
+    ),
+  });
+
+  const formattedData = data.map((row) => {
+    const formattedRow = {};
+    dataKeys.forEach((key) => {
+      formattedRow[key] = getNestedValue(row, key);
+    });
+    formattedRow["_id"] = row["_id"];
+    return formattedRow;
+  });
 
   return (
-    <TableContainer>
-      <Table variant="simple">
-        <Thead>
-          <Tr>
-            {headers.map((header, index) => (
-              <Th key={index}>{header}</Th>
-            ))}
-          </Tr>
-        </Thead>
-        <Tbody>
-          {data.map((row, rowIndex) => (
-            <Tr key={rowIndex}>
-              {dataKeys.map((key, colIndex) => (
-                <Td key={colIndex}>
-                  {key === "available" ? (
-                    <Text color={row[key] ? "green.500" : "red.500"}>
-                      {row[key] ? "Xa" : "Yoq"}
-                    </Text>
-                  ) : (
-                    row[key]
-                  )}
-                </Td>
-              ))}
-            </Tr>
-          ))}
-        </Tbody>
-      </Table>
-    </TableContainer>
+    <MaterialTable
+      title="Orders"
+      columns={columns}
+      data={formattedData}
+      isLoading={loading}
+      options={{
+        sorting: true,
+        search: true,
+        paging: true,
+      }}
+    />
   );
 };
 

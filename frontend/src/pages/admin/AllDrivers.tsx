@@ -1,8 +1,12 @@
-import React from "react";
-import { Box } from "@chakra-ui/react";
-import DataTable from "../../components/Data/DataTable";
+import { useState } from "react";
 
+import { Box, useToast } from "@chakra-ui/react";
+import axios from "axios";
+
+import DataTable from "../../components/Data/DataTable";
+import AddDriverModal from "../../components/Modals/AddDrivers";
 const DriverList = () => {
+  const toast = useToast();
   const headers = [
     "Ismi",
     "Telefon raqami",
@@ -19,17 +23,52 @@ const DriverList = () => {
     "location",
     "passengers",
   ];
-  const socketUrl = "http://localhost:4000/"; // Replace with your Socket.IO server URL
-  const socketEvent = "driverUpdated"; // The event name to listen f
-  const url = "http://localhost:4000/api/drivers";
+  const socketUrl = `${import.meta.env.VITE_API_ENDPOINT}/`; // Replace with your Socket.IO server URL
+  const socketEvent = "driverUpdated"; // The event name to listen for
+  const apiUrl = `${import.meta.env.VITE_API_ENDPOINT}/api/drivers`;
+  const [refresh, setRefresh] = useState(false);
+
+  const handleAddDriver = () => {
+    setRefresh(!refresh);
+  };
+
+  console.log(import.meta.env.VITE_API_ENDPOINT);
+  const handleDeleteDriver = (id) => {
+    axios
+      .delete(`${apiUrl}/delete/${id}`)
+      .then(() => {
+        toast({
+          title: "Driver deleted.",
+          description: "The driver has been deleted successfully.",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+        setRefresh(!refresh);
+      })
+      .catch((error) => {
+        console.error("Error deleting driver:", error);
+        toast({
+          title: "Error.",
+          description: "There was an error deleting the driver.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      });
+  };
+
   return (
     <Box p={4}>
+      <AddDriverModal apiUrl={apiUrl} onAdd={handleAddDriver} />
       <DataTable
+        refresh={refresh}
         socketEvent={socketEvent}
         socketUrl={socketUrl}
-        apiUrl={url}
+        apiUrl={apiUrl}
         dataKeys={keys}
         headers={headers}
+        onDelete={handleDeleteDriver}
       />
     </Box>
   );

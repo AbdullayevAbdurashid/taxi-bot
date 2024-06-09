@@ -15,7 +15,7 @@ const useApi = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:4000/api/orders/new", {
+      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/orders/new`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -44,7 +44,7 @@ const useApi = () => {
   const checkUserExists = async (user:any): Promise<boolean> => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:4000/api/users/verify`, {
+      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/users/verify`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

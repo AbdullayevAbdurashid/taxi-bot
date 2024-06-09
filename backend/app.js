@@ -3,10 +3,31 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-// const { Telegraf } = require('telegraf')
-// const { message } = require('telegraf/filters')
+const { Telegraf } = require('telegraf')
 const http = require("http");
 const socketManager = require('./helpers/socketEmits');
+const { Bot } = require("grammy");
+
+// Create an instance of the `Bot` class and pass your bot token to it.
+const bot = new Bot("7092832216:AAE9ttIVFBt98FJb9QvdH2t1By38UmHoHGE"); // <-- put your bot token between the ""
+
+// You can now register listeners on your bot object `bot`.
+// grammY will call the listeners when users send messages to your bot.
+
+const appLink = "https://app.cdtask.uz/"
+const driver = "https://app.cdtask.uz/driver"
+
+// Handle the /start command.
+bot.command("start", (ctx) =>     ctx.reply('Welcome', { reply_markup: { inline_keyboard: [[{text: '📲 Dasturni oching ', web_app: {url:appLink}}],] }})
+);
+// Handle other messages.
+bot.command("driver", (ctx) => ctx.reply('Welcome', { reply_markup: { inline_keyboard: [[{text: '📲 Haydovchi ', web_app: {url:driver}}]] }}));
+
+// Now that you specified how to handle messages, you can start your bot.
+
+// Start the bot.
+bot.start();
+
 
 // api routes
 mongoose.pluralize(null);
@@ -68,14 +89,17 @@ const port = process.env.PORT || 4000;
 server.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+async function clearCollections() {
+  const collections = mongoose.connection.collections;
+
+  await Promise.all(Object.values(collections).map((collection) =>
+    collection.deleteMany({}) 
+    // an empty mongodb selector object ({}) must be passed as the filter argument
+  ));
+  console.log("All collections cleared");
+}
 
 
-
-// const appLink = "https://bb1kzrrf-80.asse.devtunnels.ms/"
-// const bot = new Telegraf("7092832216:AAE9ttIVFBt98FJb9QvdH2t1By38UmHoHGE")
-// bot.start((ctx) => {
-//     ctx.reply('Welcome', { reply_markup: { inline_keyboard: [[{text: '📲 Open web app ', web_app: {url:appLink}}]] }})
-// });
 
 
 // Enabe graceful stop

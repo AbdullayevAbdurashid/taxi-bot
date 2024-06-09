@@ -31,24 +31,7 @@ const theme = extendTheme({
       },
     
       // Styles for different variants
-      variants: {
-        solid: (props) => ({
-          bg: props.colorMode === "dark" ? "vercel.500" : "blue.500",
-          color: "white",
-          _hover: {
-            bg: props.colorMode === "dark" ? "vercel.600" : "blue.600",
-          },
-        }),
-        outline: (props) => ({
-          border: "2px",
-          borderColor: props.colorMode === "dark" ? "vercel.500" : "blue.500",
-          color: props.colorMode === "dark" ? "vercel.500" : "blue.500",
-          _hover: {
-            bg: props.colorMode === "dark" ? "vercel.600" : "blue.600",
-            color: "white",
-          },
-        }),
-      },
+    
     },
     Card: {
       variants: {

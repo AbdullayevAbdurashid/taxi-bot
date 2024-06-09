@@ -14,34 +14,41 @@ import {
   useToast,
   chakra,
 } from "@chakra-ui/react";
-
+import { useNavigate } from "react-router-dom";
 export const UpdateDriver = () => {
+  const navigate = useNavigate();
   const [available, setAvailable] = useState(false);
   const [location, setLocation] = useState("");
   const [passengers, setPassengers] = useState(1);
   const [message, setMessage] = useState("");
-  const driver = JSON.parse(localStorage.getItem("driver"));
+  const driver = JSON.parse(sessionStorage.getItem("driver"));
   const toast = useToast();
+  React.useEffect(() => {
+    if (!driver) {
+      navigate("/driver");
+    }
+  }, [driver]);
+  console.log(available);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const driverId = localStorage.getItem("driver")
-      ? JSON.parse(localStorage.getItem("driver")).id
+    const driverId = sessionStorage.getItem("driver")
+      ? JSON.parse(sessionStorage.getItem("driver")).id
       : null;
     if (!driverId) {
       setMessage("No driver logged in.");
       return;
     }
-
     try {
       const response = await axios.put(
-        `http://localhost:4000/api/drivers/update/${driverId}`,
+        `${import.meta.env.VITE_API_ENDPOINT}/api/drivers/update/${driverId}`,
         {
           available,
           location,
           passengers,
         }
       );
+
       setMessage(`Driver updated successfully`);
       toast({
         title: "Success",
@@ -92,6 +99,10 @@ export const UpdateDriver = () => {
               <option value={"Toshkent"}>Toshkent</option>
               <option value={"Fargona"}>Fargona</option>
               <option value={"Bog'dod"}>Bog'dod</option>
+              <option value={"Bogdod, Rishton, Buvayda"}>
+                Bogdod, Rishton, Buvayda
+              </option>
+              <option value={"Yaypan"}>Yaypan</option>
             </Select>
           </FormControl>
           <FormControl id="passengers" mb={4}>
@@ -100,6 +111,7 @@ export const UpdateDriver = () => {
               value={passengers}
               onChange={(e) => setPassengers(Number(e.target.value))}
             >
+              <option value={1}>0</option>
               <option value={1}>1</option>
               <option value={2}>2</option>
               <option value={3}>3</option>
@@ -107,7 +119,7 @@ export const UpdateDriver = () => {
             </Select>
           </FormControl>
           <Button type="submit" colorScheme="teal" width="full">
-            Update
+            Yangilash
           </Button>
         </form>
         {message && <Text mt={4}>{message}</Text>}

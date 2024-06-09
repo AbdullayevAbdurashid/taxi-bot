@@ -1,12 +1,21 @@
 import { Box } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
+import { useEffect } from "react";
 import RegistrationForm from "../components/Forms/RegistrationForm";
 import useTelegram from "../hooks/useTelegram";
 import useSupabase from "../hooks/useSupabase";
+import { useNavigate } from "react-router-dom";
 export default function MainPage() {
+  const navigate = useNavigate();
   const { setUser, user } = useTelegram();
   const { checkUserExists } = useSupabase();
   const toast = useToast();
+  useEffect(() => {
+    if (user && user.phone !== undefined) {
+      navigate("/wizard");
+    }
+  }, []);
+
   const handleSubmit = async (data) => {
     const userToAdd = {
       id: user.id,
@@ -27,7 +36,7 @@ export default function MainPage() {
           isClosable: true,
         });
         setUser(userToAdd);
-        window.location.reload();
+        navigate("/wizard");
       }
     } catch (error) {
       console.error("Error adding user:", error.message);
@@ -39,6 +48,7 @@ export default function MainPage() {
         isClosable: true,
       });
     }
+    localStorage.setItem("user", JSON.stringify(userToAdd));
   };
 
   return (

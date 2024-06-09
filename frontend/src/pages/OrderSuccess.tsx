@@ -1,26 +1,20 @@
 import { motion, useMotionValue } from "framer-motion";
 import { useState, useEffect } from "react";
-// import { Redirect } from "react-router-dom`";
+import { useNavigate } from "react-router-dom";
 import { CircularProgress } from "../lib/icons/AnimatedCheckmark";
 import { Flex } from "@chakra-ui/react";
+
 const OrderSuccessPage = () => {
-  const [redirect, setRedirect] = useState(false);
+  const navigate = useNavigate();
   const progress = useMotionValue(100);
-  // const [countdown, setCountdown] = useState(5);
 
-  // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     setCountdown(countdown - 1);
-  //     if (countdown === 0) {
-  //       setRedirect(true);
-  //     }
-  //   }, 1000);
-  //   return () => clearInterval(timer);
-  // }, [countdown]);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigate("/");
+    }, 2000); // 10 seconds
 
-  // if (redirect) {
-  //   return <Redirect to="/" />;
-  // }
+    return () => clearTimeout(timer); // Cleanup the timer on component unmount
+  }, [navigate]);
 
   return (
     <Flex
@@ -39,10 +33,10 @@ const OrderSuccessPage = () => {
         <CircularProgress progress={progress} />
       </motion.div>
       <h1 style={{ textAlign: "center", marginTop: 20, fontSize: 18 }}>
-        Order received!
+        Buyurtma qabul qilindi! Siz bilan tez orada bo'glanishadi
       </h1>
       <p style={{ textAlign: "center", fontSize: 16, marginTop: 10 }}>
-        You will be redirected to the main page in countdown seconds.
+        Tez o'rada siz bilan bog'lanamiz
       </p>
     </Flex>
   );

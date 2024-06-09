@@ -12,11 +12,13 @@ const createDriver = async (req, res) => {
     const savedUser = await newUser.save();
     res.send(savedUser);
   } catch (err) {
+    console.log(err);
     res.status(500).send("Error: " + err.message);
   }
 };
 const updateDriver = async (req, res, io) => { // Pass 'io' as a parameter
   const { id } = req.params;
+  console.log(req.body)
   const { available, location, passengers } = req.body;
   try {
     const updatedDriver = await Drivers.findByIdAndUpdate(
@@ -57,11 +59,23 @@ const verifyDriver = async (req, res) => {
 };
 
 
-const deleteDriver = async (req, res) => {
-  const deletedDriver = await Drivers.deleteOne({ _id: req.params.id });
-  res.send(deletedDriver);
-};
 
+const deleteDriver = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deletedDriver = await Drivers.findByIdAndDelete(id);
+
+    if (!deletedDriver) {
+      return res.status(404).json({ message: "Driver not found" });
+    }
+
+    socketManager.emitEvent('driverUpdated');
+    res.status(200).json({ message: "Driver deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting driver", error: error.message });
+  }
+};
 module.exports = {
   createDriver,
   verifyDriver,

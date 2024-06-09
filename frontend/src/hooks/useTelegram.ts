@@ -15,12 +15,12 @@ const tg = window.Telegram.WebApp;
 export default function useTelegram() {
   const [user, setTgUser] = useState<any>(tg.initDataUnsafe?.user);
   const setUser = (newUser: any) => {
-    localStorage.setItem("user", JSON.stringify(newUser)), setTgUser(newUser  );
+    localStorage.setItem("user", JSON.stringify({...newUser, phone:undefined})), setTgUser(newUser  );
   };
 
   useEffect(() => {
     const localUser = JSON.parse(localStorage.getItem("user"));
-    if (localUser && Object.keys(localUser).length > 0) {
+    if (localUser && Object.keys(localUser).length > 0 ) {
       setTgUser(localUser);
     }
   }, []);

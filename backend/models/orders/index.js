@@ -21,10 +21,17 @@ const orderSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  phone: {
+    type: String,
+    required: true,
+  },
   type: {
     type: String,
-    enum: ["parsel", "ride"],
-    required: true,
+     required: true,
+  },
+  rideTime: {
+    type: String,
+    required: false,
   },
   rideDate: {
     type: Date,

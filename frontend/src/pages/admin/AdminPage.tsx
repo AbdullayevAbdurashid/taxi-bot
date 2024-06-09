@@ -1,22 +1,17 @@
-import React, { useState } from "react";
-import { Flex } from "@chakra-ui/react";
 import AdminSidebar from "./AdminSidebar";
 import AdminAuth from "./AdminAuth";
-
+import { useNavigate } from "react-router-dom";
 const AdminPage = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = () => {
-    setIsLoggedIn(true);
+    sessionStorage.setItem("admin", "true");
+    navigate("/admin/drivers");
   };
 
   return (
     <>
-      {isLoggedIn ? (
-        <Flex>Hello admin!</Flex>
-      ) : (
-        <AdminAuth onLogin={handleLogin} />
-      )}
+      <AdminAuth onLogin={handleLogin} />
     </>
   );
 };
