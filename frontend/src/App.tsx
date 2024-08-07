@@ -7,6 +7,7 @@ import {
 
 import useApi from "./hooks/useSupabase";
 import Wizard from "./pages/MakeOrder";
+
 import OrderSuccessPage from "./pages/OrderSuccess";
 import VerifyDriver from "./pages/Driver/VerifyDriver";
 import DriverDashboard from "./pages/Driver/DriverDashboard";
@@ -22,8 +23,8 @@ const App = () => {
 
   return (
     <Router>
-      {/* <Container maxW={{ base: "100%", md: "100%" }}> */}
       <Routes>
+        {/* Should make routes in array its bad code r.n */}
         <Route path="/" element={<Wizard />} />
         <Route path="/wizard" element={<Wizard />} />
         <Route path="/order-success" element={<OrderSuccessPage />} />
@@ -34,44 +35,8 @@ const App = () => {
 
         <Route path="*" element={<Navigate to="/" />} />
         <Route path="/driver/dashboard" element={<DriverDashboard />} />
-        {/* <Route
-            path="/admin/login"
-            element={
-              <>
-                <AdminPage />
-              </>
-            }
-          />
-          <Route
-            path="/admin"
-            element={
-              <>
-                <AdminPage />
-              </>
-            }
-          />
-          <Route
-            path="/admin/drivers"
-            element={
-              <>
-                <Sidebar>
-                  <AllDrivers />
-                </Sidebar>
-              </>
-            }
-          />
-          <Route
-            path="/admin/orders"
-            element={
-              <>
-                <Sidebar>
-                  <OrdersList />
-                </Sidebar>
-              </>
-            }
-          /> */}
+        <Route path="/driver/" element={<DriverDashboard />} />
       </Routes>
-      {/* </Container> */}
     </Router>
   );
 };

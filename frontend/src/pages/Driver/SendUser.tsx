@@ -23,10 +23,6 @@ const TransportForm = () => {
   const where = watch("where");
   const to = watch("to");
 
-  React.useEffect(() => {
-    console.log(where, to);
-  }, [where, to]);
-
   const handleChangeWhere = (e) => {
     setValue("where", e.target.value);
   };

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { CircularProgress } from "../lib/icons/AnimatedCheckmark";
 import { Flex } from "@chakra-ui/react";
 
+//need to add translation for this page
 const OrderSuccessPage = () => {
   const navigate = useNavigate();
   const progress = useMotionValue(100);

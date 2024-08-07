@@ -10,12 +10,12 @@ import {
   Select,
   Spinner,
   Text,
-  InputRightAddon,
-  InputGroup,
 } from "@chakra-ui/react";
 import useApi from "../hooks/useSupabase"; // Assuming useApi is where the API calls are defined
 import useTelegram from "../hooks/useTelegram";
 import { useNavigate } from "react-router-dom";
+
+//depricated because of new version
 const routes = [
   "Fergana - Fargʻonadan - Toshkentga,",
   "Toshkentdan - Fargʻonaga",
