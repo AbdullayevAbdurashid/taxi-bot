@@ -14,6 +14,8 @@ import DriverDashboard from "./pages/Driver/DriverDashboard";
 import Register from "./pages/Driver/Register";
 import SearchPage from "./pages/Driver/GetUser";
 import TransportForm from "./pages/Driver/SendUser";
+import NotFoundPage from "./pages/404";
+import Profile from "./pages/Driver/Profile";
 const App = () => {
   const { loading } = useApi();
 
@@ -32,10 +34,11 @@ const App = () => {
         <Route path="/driver/register" element={<Register />} />
         <Route path="/driver/user/add" element={<TransportForm />} />
         <Route path="/driver/user/get" element={<SearchPage />} />
-
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="/404" element={<NotFoundPage />}></Route>
+        <Route path="*" element={<Navigate to="/404" />} />
         <Route path="/driver/dashboard" element={<DriverDashboard />} />
         <Route path="/driver/" element={<DriverDashboard />} />
+        <Route path="/driver/profile" element={<Profile />} />
       </Routes>
     </Router>
   );

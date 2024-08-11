@@ -1,10 +1,14 @@
 // Layout.js
 import { Box, Container } from "@chakra-ui/react";
-
-const Layout = ({ children }) => {
+import Header from "./Header";
+const Layout = ({ children, isHeader = true, ...args }) => {
   return (
     <Box as="main" w="full">
-      <Container maxW="xl">{children}</Container>
+      {isHeader && <Header />}
+
+      <Container {...args} maxW="sm" pt={20} centerContent>
+        {children}
+      </Container>
     </Box>
   );
 };

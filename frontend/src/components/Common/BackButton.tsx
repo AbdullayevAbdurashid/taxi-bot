@@ -1,9 +1,8 @@
 // BackButton.js
 import { useNavigate } from "react-router-dom";
-import { IconButton, Box, Button } from "@chakra-ui/react";
-import { ChevronLeftIcon } from "@chakra-ui/icons";
+import { Box, Button } from "@chakra-ui/react";
 
-const BackButton = ({ ariaLabel = "Go back" }) => {
+const BackButton = ({ ariaLabel = "Orqaga" }) => {
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -11,18 +10,16 @@ const BackButton = ({ ariaLabel = "Go back" }) => {
   };
 
   return (
-    <Box position="absolute" top={2} left={4} zIndex={1000}>
+    <Box>
       <Button
-        // icon={<ChevronLeftIcon />}
         aria-label={ariaLabel}
         onClick={handleBack}
-        borderRadius={100}
-        // variant="outline"
+        borderRadius={150}
         colorScheme="teal"
         size="md"
       >
-        {" "}
-        Orqaga
+        {/* <ChevronLeftIcon fontSize={"3xl"} /> */}
+        {ariaLabel}
       </Button>
     </Box>
   );

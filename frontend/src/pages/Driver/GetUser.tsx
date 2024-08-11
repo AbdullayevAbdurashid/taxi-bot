@@ -1,52 +1,32 @@
 // SearchPage.js
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Container, VStack, Box, Spinner } from "@chakra-ui/react";
-import BackButton from "../../components/Common/BackButton";
-import ConfirmationModal from "../../components/Common/Modal";
+import { useState } from "react";
+import { VStack, Box, Spinner } from "@chakra-ui/react";
+import ConfirmationModal from "../../components/Modals/ConfirmationModal";
 import ResultItem from "../../components/Common/ResultItem";
 import CitySelector from "../../components/Forms/CitySelector";
 import { originalWhereOptions, originalWhereToOptions } from "../../db/options";
-import { useForm } from "react-hook-form";
+import useDriver from "../../hooks/useDriver";
+import {
+  fetchSearchResults,
+  postGetRequest,
+  // fetchGetRequests,
+  // fetchRequestDetails,
+} from "../../api/driverService";
+import Layout from "../../components/Layout";
 
 const SearchPage = () => {
-  const { register, handleSubmit, watch } = useForm();
+  const { user, loading: userLoading, error: userError } = useDriver();
   const [results, setResults] = useState([]);
-  const [userId, setUserId] = useState(null);
   const [show, setIsShow] = useState(false);
-  const [getRequestData, setGetRequestData] = useState([]);
   const [selectedRequestId, setSelectedRequestId] = useState(null);
   const [confirmationOpen, setConfirmationOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const token = localStorage.getItem("accessToken");
-        if (token) {
-          const response = await axios.get(
-            "https://taksibot.pythonanywhere.com/users/profile/",
-            {
-              headers: { Authorization: `JWT ${token}` },
-            }
-          );
-          const { id } = response.data;
-          setUserId(id);
-        }
-      } catch (error) {
-        console.error("Error fetching user profile:", error);
-      }
-    };
-    fetchUserProfile();
-  }, []);
-
   const handleSearch = async (data) => {
     setLoading(true);
     try {
-      const response = await axios.get(
-        `https://taksibot.pythonanywhere.com/search/?where=${data.where}&whereTo=${data.whereTo}`
-      );
-      const filteredResults = response.data.filter(
+      const response = await fetchSearchResults(data.where, data.whereTo);
+      const filteredResults = response.filter(
         (result) => result.request_type === "yolovchi_berish"
       );
       setResults(filteredResults);
@@ -56,7 +36,7 @@ const SearchPage = () => {
       setLoading(false);
     }
   };
-
+  console.log(results);
   const handleShowPhoneNumber = (requestId) => {
     setSelectedRequestId(requestId);
     setConfirmationOpen(true);
@@ -64,61 +44,16 @@ const SearchPage = () => {
 
   const confirmShowPhoneNumber = async () => {
     try {
-      const token = localStorage.getItem("accessToken");
+      const token = sessionStorage.getItem("accessToken");
       if (!token) {
         console.error("No token found");
         return;
       }
 
-      const response = await axios.post(
-        "https://taksibot.pythonanywhere.com/getrequests/",
-        {
-          user: userId,
-          request: selectedRequestId,
-          getrequest_type: "yolovchi_olish",
-        },
-        {
-          headers: { Authorization: `JWT ${token}` },
-        }
-      );
-
-      const { phone_number } = response.data; // assuming response contains phone_number
-
-      setResults((prevResults) =>
-        prevResults.map((result) =>
-          result.id === selectedRequestId ? { ...result, phone_number } : result
-        )
-      );
-
-      setIsShow(true); // Set aniqlik to true when the user confirms
+      const response = await postGetRequest(user?.id, selectedRequestId, token);
+      console.log(response);
+      setIsShow(true);
       alert(`Telefon raqami pastdagi jadvalda chiqadi`);
-
-      // Fetch getrequest data
-      const getRequestResponse = await axios.get(
-        "https://taksibot.pythonanywhere.com/getrequests/",
-        {
-          headers: { Authorization: `JWT ${token}` },
-        }
-      );
-      const getRequestData = getRequestResponse.data;
-
-      // Fetch request data for each getrequest
-      const requestDetails = await Promise.all(
-        getRequestData.map(async (getRequest) => {
-          const requestResponse = await axios.get(
-            `https://taksibot.pythonanywhere.com/requests/${getRequest.request}/`,
-            {
-              headers: { Authorization: `JWT ${token}` },
-            }
-          );
-          return {
-            ...getRequest,
-            phone_number: requestResponse.data.phone_number,
-          };
-        })
-      );
-
-      setGetRequestData(requestDetails);
     } catch (error) {
       console.error("Error:", error);
     } finally {
@@ -126,9 +61,10 @@ const SearchPage = () => {
     }
   };
 
+  if (userLoading) return <Spinner size="lg" />;
+  if (userError) return <p>Error fetching user profile: {userError}</p>;
   return (
-    <Container pt={10}>
-      <BackButton />
+    <Layout>
       <VStack spacing={4} align="stretch">
         <Box p={5} shadow="md" borderWidth="1px" borderRadius="md">
           <CitySelector
@@ -138,7 +74,7 @@ const SearchPage = () => {
             isLoading={loading}
           />
         </Box>
-
+        {results.length === 0 ? <h1>Hech narsa topilmadi</h1> : null}
         {loading ? (
           <Spinner size="lg" />
         ) : (
@@ -156,13 +92,13 @@ const SearchPage = () => {
         )}
 
         <ConfirmationModal
-          message={`Telefon raqamni ko'rishni tasdiqlaysizmi?`}
+          message={`Telefon raqamni ko'rishni tasdiqlaysizmi?Balansingizdan 7500 so'm ayriladi'`}
           isOpen={confirmationOpen}
           onClose={() => setConfirmationOpen(false)}
           onConfirm={confirmShowPhoneNumber}
         />
       </VStack>
-    </Container>
+    </Layout>
   );
 };
 

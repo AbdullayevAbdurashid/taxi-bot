@@ -1,5 +1,4 @@
 // ConfirmationModal.js
-import React from "react";
 import {
   Modal,
   ModalOverlay,

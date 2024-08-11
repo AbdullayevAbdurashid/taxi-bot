@@ -1,45 +1,42 @@
 // src/components/VerifyDriver.js
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Box,
   Button,
   FormControl,
   FormLabel,
   Input,
-  Container,
   Heading,
   chakra,
   InputGroup,
   InputLeftAddon,
+  Text,
 } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { verifyDriver } from "../../api/driverService";
-
+import Layout from "../../components/Layout";
 const VerifyDriver = () => {
   const navigate = useNavigate();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const toast = useToast();
-
-  useEffect(() => {
-    const driver = JSON.parse(sessionStorage.getItem("driver"));
-    if (driver) {
-      navigate("/driver/update");
-    }
-  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await verifyDriver(phoneNumber, password);
-
-      if (response.token) {
-        sessionStorage.setItem("driver", JSON.stringify(response.driver));
-        sessionStorage.setItem("token", response.token); // Save JWT
-        navigate("/driver/update");
+      setLoading(true);
+      const response = await verifyDriver("+998" + phoneNumber, password);
+      if (response.access) {
+        const { access, refresh } = response;
+        sessionStorage.setItem("accessToken", access);
+        sessionStorage.setItem("refreshToken", refresh);
+        setLoading(false);
+        navigate("/driver/dashboard");
       } else {
+        setLoading(false);
+
         toast({
           title: "Verification failed.",
           description: response.message || "Invalid phone number or password.",
@@ -49,6 +46,7 @@ const VerifyDriver = () => {
         });
       }
     } catch (error) {
+      setLoading(false);
       toast({
         title: "An error occurred.",
         description: error.message || "Please try again later.",
@@ -60,7 +58,7 @@ const VerifyDriver = () => {
   };
 
   return (
-    <Container centerContent pt={20}>
+    <Layout centerContent pt={20} isHeader={false}>
       <Box p={5} shadow="md" borderWidth="1px" borderRadius="md">
         <Heading as="h3" size="md" mb={4}>
           <chakra.span color="green.300">Assalomu alaykum,</chakra.span> sizni
@@ -87,12 +85,24 @@ const VerifyDriver = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </FormControl>
-          <Button type="submit" colorScheme="teal" width="full">
-            Verify
+          <Text mb={4} fontWeight={"bold"}>
+            {" "}
+            Akkauntingiz yo'g'mi?{" "}
+            <chakra.span color={"primary"}>
+              <Link to={"/driver/register"}> Bu yerda oching</Link>
+            </chakra.span>
+          </Text>
+          <Button
+            isLoading={loading}
+            type="submit"
+            colorScheme="teal"
+            width="full"
+          >
+            Davom etish
           </Button>
         </form>
       </Box>
-    </Container>
+    </Layout>
   );
 };
 

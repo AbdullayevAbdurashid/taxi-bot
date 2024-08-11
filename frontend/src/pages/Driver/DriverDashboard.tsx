@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import {
   Box,
-  Container,
   Heading,
   SimpleGrid,
   chakra,
@@ -10,21 +9,27 @@ import {
 } from "@chakra-ui/react";
 import { categories } from "../../db/driverCategories";
 import CurrencyFormat from "react-currency-format";
-
-const driver = {
-  name: "Islombek Raxmonberdiev",
-  balance: "1272500",
-};
-
+import { useNavigate } from "react-router-dom";
+import useDriver from "../../hooks/useDriver";
+import Layout from "../../components/Layout";
+import Auth from "../../utils/hoc/Auth";
 const DriverDashboard = () => {
+  const { user, loading } = useDriver();
   const textColor = useColorModeValue("black", "white");
+  const navigate = useNavigate();
+  if (loading) {
+    return "Loading";
+  }
 
+  if (!user) {
+    return "Iltimos dasturga qaytadan kring";
+  }
   return (
-    <Container
+    <Layout
       maxW={{ base: "100%", md: "xl" }}
       centerContent
       minHeight="100vh"
-      py={{ base: 2, md: 10 }}
+      py={{ base: 5, md: 10 }}
     >
       <Box
         p={5}
@@ -37,17 +42,17 @@ const DriverDashboard = () => {
         <Heading as="h2" width={"100%"} size="md" mb={4} color={textColor}>
           Salom {""}
           <chakra.span color="green.400">
-            {driver?.name || "Driver"}
+            {user?.first_name + " " + user?.last_name || "Driver"}
           </chakra.span>
         </Heading>
         <Text fontSize="lg" mb={4} color={textColor}>
-          Balance:
+          Hisobingiz:
           <chakra.span fontWeight={"bold"} color="green.500">
             <CurrencyFormat
-              value={driver?.balance}
+              value={user?.balance}
               displayType={"text"}
               thousandSeparator={true}
-              suffix={" uzs"}
+              suffix={" so'm"}
             />
           </chakra.span>
         </Text>
@@ -56,6 +61,9 @@ const DriverDashboard = () => {
             <Box
               key={indx}
               as="button"
+              onClick={() => {
+                navigate(category.url);
+              }}
               p={5}
               shadow="md"
               borderWidth="1px"
@@ -81,8 +89,8 @@ const DriverDashboard = () => {
           ))}
         </SimpleGrid>
       </Box>
-    </Container>
+    </Layout>
   );
 };
 
-export default DriverDashboard;
+export default Auth(DriverDashboard);

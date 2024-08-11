@@ -1,18 +1,22 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
-  Container,
   Box,
   Heading,
   FormControl,
   FormLabel,
   Input,
   InputGroup,
-  InputLeftAddon,
   Button,
+  Text,
   chakra,
+  useToast,
 } from "@chakra-ui/react";
-
+import { Link } from "react-router-dom";
+import Layout from "../../components/Layout";
+import { registerNewDriver } from "../../api/driverService";
+import { useNavigate } from "react-router-dom";
 const RegisterForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -20,7 +24,8 @@ const RegisterForm = () => {
     passportImage: null,
     licenseImage: null,
   });
-
+  const toast = useToast();
+  const [loading, setLoading] = useState(false);
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     setFormData((prev) => ({
@@ -29,20 +34,63 @@ const RegisterForm = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Data:", formData);
+    setLoading(true);
+    const formDataToSend = new FormData();
+
+    // Append all formData keys to formDataObj
+    formDataToSend.append("first_name", formData.firstName);
+    formDataToSend.append("last_name", formData.lastName);
+    formDataToSend.append("phone_number", formData.phoneNumber);
+    formDataToSend.append("passport_photo", formData.passportImage);
+    formDataToSend.append("prava_photo", formData.licenseImage);
+
+    try {
+      const response = await registerNewDriver(formDataToSend); // API call
+      if (response) {
+        toast({
+          title: "Sorov yuborildi!",
+          description:
+            "Bizning operatorlar sizning sorovingizni tez orada korib chiqadi va telefoningizga parol yuborad",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+        setTimeout(() => {
+          setLoading(false);
+          navigate("/driver/login");
+        }, 4000);
+      } else {
+        throw new Error("Registration failed");
+      }
+    } catch (error) {
+      setLoading(false);
+      toast({
+        title: "Error!",
+        description: error.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
   };
 
   return (
-    <Container centerContent pt={20}>
+    <Layout isHeader={false} centerContent>
       <Box p={5} shadow="md" borderWidth="1px" borderRadius="md">
         <Heading as="h3" size="md" mb={4}>
-          <chakra.span color="green.300">Ro'yxatdan o'tish</chakra.span>
+          <chakra.span>Ro'yxatdan o'tish</chakra.span>
         </Heading>
+        <Text mb={4} fontWeight={"bold"}>
+          Akkauntingiz bormi?{" "}
+          <chakra.span color={"primary"}>
+            <Link to={"/driver/login"}> Kirish</Link>
+          </chakra.span>
+        </Text>
         <form onSubmit={handleSubmit}>
           <FormControl id="firstName" mb={4}>
-            <FormLabel>Ism</FormLabel>
+            <FormLabel>Ismingiz</FormLabel>
             <Input
               name="firstName"
               type="text"
@@ -51,7 +99,7 @@ const RegisterForm = () => {
             />
           </FormControl>
           <FormControl id="lastName" mb={4}>
-            <FormLabel>Familya</FormLabel>
+            <FormLabel>Familiyangiz</FormLabel>
             <Input
               name="lastName"
               type="text"
@@ -60,10 +108,10 @@ const RegisterForm = () => {
             />
           </FormControl>
           <FormControl id="phoneNumber" mb={4}>
-            <FormLabel>Telefon Raqam</FormLabel>
+            <FormLabel>Telefon Raqamingiz</FormLabel>
             <InputGroup>
-              <InputLeftAddon>+998</InputLeftAddon>
               <Input
+                placeholder="+998"
                 name="phoneNumber"
                 type="tel"
                 value={formData.phoneNumber}
@@ -72,7 +120,7 @@ const RegisterForm = () => {
             </InputGroup>
           </FormControl>
           <FormControl id="passportImage" mb={4}>
-            <FormLabel>Passport Rasm</FormLabel>
+            <FormLabel>Passportingizni yuklang</FormLabel>
             <Input
               name="passportImage"
               type="file"
@@ -81,7 +129,7 @@ const RegisterForm = () => {
             />
           </FormControl>
           <FormControl id="licenseImage" mb={4}>
-            <FormLabel>Prava Rasm</FormLabel>
+            <FormLabel>Haydovchilik guvoxnomasini yuklang</FormLabel>
             <Input
               name="licenseImage"
               type="file"
@@ -89,12 +137,17 @@ const RegisterForm = () => {
               onChange={handleChange}
             />
           </FormControl>
-          <Button type="submit" colorScheme="teal" width="full">
+          <Button
+            isLoading={loading}
+            type="submit"
+            colorScheme="teal"
+            width="full"
+          >
             Ro'yxatdan o'tish
           </Button>
         </form>
       </Box>
-    </Container>
+    </Layout>
   );
 };
 

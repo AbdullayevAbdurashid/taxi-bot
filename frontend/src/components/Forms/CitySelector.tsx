@@ -11,8 +11,8 @@ const CitySelector = ({
   isLoading,
 }) => {
   const { control, handleSubmit, watch } = useForm();
-  const where = watch("where");
-  const whereTo = watch("whereTo");
+  // const where = watch("where");
+  // const whereTo = watch("whereTo");
 
   return (
     <Box>
@@ -35,26 +35,6 @@ const CitySelector = ({
           />
         </FormControl>
 
-        {where === "toshkent" && (
-          <FormControl id="tuman" mb={4}>
-            <FormLabel>Tuman:</FormLabel>
-            <Controller
-              name="tuman"
-              control={control}
-              render={({ field }) => (
-                <Select {...field}>
-                  <option value="">Tumanni tanlang</option>
-                  {toshkentDistricts.map((tuman) => (
-                    <option key={tuman} value={tuman}>
-                      {tuman.toUpperCase()}
-                    </option>
-                  ))}
-                </Select>
-              )}
-            />
-          </FormControl>
-        )}
-
         <FormControl id="whereTo" mb={4}>
           <FormLabel>Qayerga:</FormLabel>
           <Controller
@@ -72,26 +52,6 @@ const CitySelector = ({
             )}
           />
         </FormControl>
-
-        {whereTo === "toshkent" && (
-          <FormControl id="tuman2" mb={4}>
-            <FormLabel>Tuman:</FormLabel>
-            <Controller
-              name="tuman2"
-              control={control}
-              render={({ field }) => (
-                <Select {...field}>
-                  <option value="">Tumanni tanlang</option>
-                  {toshkentDistricts.map((tuman) => (
-                    <option key={tuman} value={tuman}>
-                      {tuman.toUpperCase()}
-                    </option>
-                  ))}
-                </Select>
-              )}
-            />
-          </FormControl>
-        )}
 
         <Button type="submit" colorScheme="teal" isLoading={isLoading}>
           Qidirish

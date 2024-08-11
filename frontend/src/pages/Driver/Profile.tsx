@@ -1,0 +1,95 @@
+import useDriver from "../../hooks/useDriver";
+import {
+  Box,
+  Flex,
+  Text,
+  Image,
+  VStack,
+  HStack,
+  Button,
+} from "@chakra-ui/react";
+import Auth from "../../utils/hoc/Auth";
+import { useQuery } from "@tanstack/react-query";
+import { fetchDriverOrders } from "../../api/driverService";
+
+// Define the query function for fetching driver orders
+const fetchOrders = async (token: string | null) => {
+  if (!token) throw new Error("No access token found");
+  return await fetchDriverOrders(token);
+};
+
+function Profile() {
+  const { user, loading } = useDriver();
+  const placeholderImage = "https://via.placeholder.com/100";
+
+  // Fetch token from session storage
+  const token = sessionStorage.getItem("accessToken");
+
+  // Use React Query to fetch driver orders
+  const {
+    data: orders,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ["driverOrders", token],
+    queryFn: () => fetchOrders(token),
+    enabled: !!token, // Only run the query if token is available
+  });
+
+  if (loading) {
+    return "Loading";
+  }
+
+  if (isLoading) {
+    return "Loading orders...";
+  }
+
+  if (error) {
+    return `Error: ${error.message}`;
+  }
+  console.log(orders);
+
+  return (
+    <VStack spacing={4} p={4} alignItems="flex-start" bg="gray.50" minH="100vh">
+      <HStack spacing={4} w="full">
+        <Image
+          borderRadius="md"
+          boxSize="100px"
+          src={user.passport_photo || placeholderImage}
+          fallbackSrc={placeholderImage}
+          alt={`${user.first_name} ${user.last_name}`}
+        />
+        <VStack align="flex-start" spacing={1}>
+          <Text fontSize="xl" fontWeight="bold">
+            {user.first_name} {user.last_name}
+          </Text>
+          <Text fontSize="md" color="gray.600">
+            {user.phone_number}
+          </Text>
+          <Text fontSize="lg" color="teal.500" fontWeight="bold">
+            Balance: {user.balance} UZS
+          </Text>
+          <Button colorScheme={user.is_active ? "green" : "red"}>
+            {user.is_active ? "Active" : "Inactive"}
+          </Button>
+        </VStack>
+      </HStack>
+      <Box w="full">
+        <Text fontSize="lg" fontWeight="bold" mb={2}>
+          Xaydovchilik guvoxnomangiz
+        </Text>
+        <Image
+          borderRadius="md"
+          src={user.prava_photo}
+          fallbackSrc={placeholderImage}
+          alt="user License"
+          w="full"
+        />
+      </Box>
+      {/* Use orders data here if needed */}
+    </VStack>
+  );
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export default Auth(Profile);
