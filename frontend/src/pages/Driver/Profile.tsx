@@ -11,8 +11,8 @@ import {
 import Auth from "../../utils/hoc/Auth";
 import { useQuery } from "@tanstack/react-query";
 import { fetchDriverOrders } from "../../api/driverService";
-
-// Define the query function for fetching driver orders
+import Layout from "../../components/Layout";
+import Orders from "../../components/Data/OrdersTable";
 const fetchOrders = async (token: string | null) => {
   if (!token) throw new Error("No access token found");
   return await fetchDriverOrders(token);
@@ -39,7 +39,7 @@ function Profile() {
   if (loading) {
     return "Loading";
   }
-
+  console.log(orders);
   if (isLoading) {
     return "Loading orders...";
   }
@@ -47,47 +47,53 @@ function Profile() {
   if (error) {
     return `Error: ${error.message}`;
   }
-  console.log(orders);
 
   return (
-    <VStack spacing={4} p={4} alignItems="flex-start" bg="gray.50" minH="100vh">
-      <HStack spacing={4} w="full">
-        <Image
-          borderRadius="md"
-          boxSize="100px"
-          src={user.passport_photo || placeholderImage}
-          fallbackSrc={placeholderImage}
-          alt={`${user.first_name} ${user.last_name}`}
-        />
-        <VStack align="flex-start" spacing={1}>
-          <Text fontSize="xl" fontWeight="bold">
-            {user.first_name} {user.last_name}
+    <Layout>
+      <VStack spacing={4} alignItems="flex-start">
+        <HStack w="full">
+          <Image
+            borderRadius="md"
+            boxSize="100px"
+            src={user.passport_photo || placeholderImage}
+            fallbackSrc={placeholderImage}
+            alt={`${user.first_name} ${user.last_name}`}
+          />
+          <VStack align="flex-start" spacing={1}>
+            <Text fontSize="xl" fontWeight="bold">
+              {user.first_name} {user.last_name}
+            </Text>
+            <Text fontSize="md" color="gray.600">
+              {user.phone_number}
+            </Text>
+            <Text fontSize="lg" color="teal.500" fontWeight="bold">
+              Xisob: {user.balance} UZS
+            </Text>
+            <Button colorScheme={user.is_active ? "green" : "red"}>
+              {user.is_active ? "Active" : "Inactive"}
+            </Button>
+          </VStack>
+        </HStack>
+        <Box w="full">
+          <Text fontSize="lg" fontWeight="bold" mb={2}>
+            Xaydovchilik guvoxnomangiz
           </Text>
-          <Text fontSize="md" color="gray.600">
-            {user.phone_number}
-          </Text>
-          <Text fontSize="lg" color="teal.500" fontWeight="bold">
-            Balance: {user.balance} UZS
-          </Text>
-          <Button colorScheme={user.is_active ? "green" : "red"}>
-            {user.is_active ? "Active" : "Inactive"}
-          </Button>
-        </VStack>
-      </HStack>
-      <Box w="full">
+          <Image
+            borderRadius="md"
+            src={user.prava_photo}
+            fallbackSrc={placeholderImage}
+            alt="user License"
+            aspectRatio={16 / 9}
+            w="full"
+          />
+        </Box>
+        {/* Use orders data here if needed */}
         <Text fontSize="lg" fontWeight="bold" mb={2}>
-          Xaydovchilik guvoxnomangiz
+          Buyurtmalar
         </Text>
-        <Image
-          borderRadius="md"
-          src={user.prava_photo}
-          fallbackSrc={placeholderImage}
-          alt="user License"
-          w="full"
-        />
-      </Box>
-      {/* Use orders data here if needed */}
-    </VStack>
+        <Orders orders={orders} />
+      </VStack>
+    </Layout>
   );
 }
 

@@ -14,7 +14,7 @@ import {
 } from "../../api/driverService";
 import Layout from "../../components/Layout";
 
-const SearchPage = () => {
+const GetParcel = () => {
   const { user, loading: userLoading, error: userError } = useDriver();
   const [results, setResults] = useState([]);
   const [show, setIsShow] = useState(false);
@@ -27,7 +27,7 @@ const SearchPage = () => {
     try {
       const response = await fetchSearchResults(data.where, data.whereTo);
       const filteredResults = response.filter(
-        (result) => result.request_type === "yolovchi_berish"
+        (result) => result.request_type === "pochta_berish"
       );
       setResults(filteredResults);
     } catch (error) {
@@ -42,7 +42,6 @@ const SearchPage = () => {
   };
 
   const confirmShowPhoneNumber = async () => {
-    console.log("wtf");
     try {
       const token = sessionStorage.getItem("accessToken");
       if (!token) {
@@ -54,13 +53,10 @@ const SearchPage = () => {
         user?.id,
         selectedRequestId,
         token,
-        "yolovchi_olish"
+        "pochta_olish"
       );
-
-      if (response) {
-        setIsShow(true);
-        alert(`Telefon raqami pastdagi jadvalda chiqadi`);
-      }
+      setIsShow(true);
+      alert(`Telefon raqami pastdagi jadvalda chiqadi`);
     } catch (error) {
       console.error("Error:", error);
     } finally {
@@ -109,4 +105,4 @@ const SearchPage = () => {
   );
 };
 
-export default SearchPage;
+export default GetParcel;

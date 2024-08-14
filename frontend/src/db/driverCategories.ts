@@ -34,7 +34,7 @@ export const categories: Category[] = [
     name: "Pochta olish",
     bgColor: "green.400",
     hoverBgColor: "teal.200",
-    url: "/driver/post/get",
+    url: "/driver/parcel/get",
     icon: MdOutlineMoveToInbox,
   },
   {

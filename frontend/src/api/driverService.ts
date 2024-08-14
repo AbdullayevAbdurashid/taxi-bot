@@ -51,11 +51,11 @@ export const fetchSearchResults = async (where, whereTo) => {
   return apiMethods.get<AuthResponse>(`/search/?where=${where}&whereTo=${whereTo}`);
 };
 
-export const postGetRequest = async (userId, selectedRequestId,token):Promise<IPostRequest[]> => {
+export const postGetRequest = async (userId, selectedRequestId,token,type):Promise<IPostRequest[]> => {
   return apiMethods.post('/getrequests/', {
     user: userId,
     request: selectedRequestId,
-    getrequest_type: 'yolovchi_olish',
+    getrequest_type: type,
   },token);
 };
 

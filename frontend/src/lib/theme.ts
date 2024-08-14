@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
 //@ts-nocheck
-import { extendTheme } from "@chakra-ui/react";
+import { background, extendTheme } from "@chakra-ui/react";
 import "@fontsource-variable/inter";
 const theme = extendTheme({
   config: {
@@ -61,12 +61,7 @@ const theme = extendTheme({
         },
       }),
     },
-    Box: {
-      baseStyle: (props) => ({
-        border: "1px solid",
-        borderColor: props.colorMode === "dark" ? "teal.500" : "black",
-      }),
-    },
+ 
     Button: {
       // Base style
       baseStyle: {

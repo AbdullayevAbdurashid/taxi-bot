@@ -13,12 +13,13 @@ import { useNavigate } from "react-router-dom";
 import useDriver from "../../hooks/useDriver";
 import Layout from "../../components/Layout";
 import Auth from "../../utils/hoc/Auth";
+import LoadingOverlay from "../../components/Common/LoadingOverlay";
 const DriverDashboard = () => {
   const { user, loading } = useDriver();
   const textColor = useColorModeValue("black", "white");
   const navigate = useNavigate();
   if (loading) {
-    return "Loading";
+    return <LoadingOverlay />;
   }
 
   if (!user) {

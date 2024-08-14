@@ -16,11 +16,13 @@ import SearchPage from "./pages/Driver/GetUser";
 import TransportForm from "./pages/Driver/SendUser";
 import NotFoundPage from "./pages/404";
 import Profile from "./pages/Driver/Profile";
+import GetParcel from "./pages/Driver/GetParcel";
+import LoadingOverlay from "./components/Common/LoadingOverlay";
 const App = () => {
   const { loading } = useApi();
 
   if (loading) {
-    return <h1>Loading...</h1>;
+    return <LoadingOverlay />;
   }
 
   return (
@@ -34,6 +36,7 @@ const App = () => {
         <Route path="/driver/register" element={<Register />} />
         <Route path="/driver/user/add" element={<TransportForm />} />
         <Route path="/driver/user/get" element={<SearchPage />} />
+        <Route path="/driver/parcel/get" element={<GetParcel />} />
         <Route path="/404" element={<NotFoundPage />}></Route>
         <Route path="*" element={<Navigate to="/404" />} />
         <Route path="/driver/dashboard" element={<DriverDashboard />} />

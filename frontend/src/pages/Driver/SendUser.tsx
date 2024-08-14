@@ -19,7 +19,7 @@ import { sendNewUser } from "../../api/driverService";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const TransportForm = () => {
+const TransportForm = (isPost) => {
   const toast = useToast();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
