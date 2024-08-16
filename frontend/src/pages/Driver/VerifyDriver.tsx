@@ -48,7 +48,7 @@ const VerifyDriver = () => {
     } catch (error) {
       setLoading(false);
       toast({
-        title: "An error occurred.",
+        title: "Parol notog'ri.",
         description: error.message || "Please try again later.",
         status: "error",
         duration: 5000,
