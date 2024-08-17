@@ -1,7 +1,7 @@
 // BackButton.js
 import { useNavigate } from "react-router-dom";
 import { Box, Button } from "@chakra-ui/react";
-
+import { ArrowBackIcon } from "@chakra-ui/icons";
 const BackButton = ({ ariaLabel = "Orqaga" }) => {
   const navigate = useNavigate();
 
@@ -14,10 +14,11 @@ const BackButton = ({ ariaLabel = "Orqaga" }) => {
       <Button
         aria-label={ariaLabel}
         onClick={handleBack}
-        borderRadius={150}
+        borderRadius={50}
         colorScheme="teal"
-        size="md"
+        size="sm"
       >
+        <ArrowBackIcon mr={1} />
         {/* <ChevronLeftIcon fontSize={"3xl"} /> */}
         {ariaLabel}
       </Button>

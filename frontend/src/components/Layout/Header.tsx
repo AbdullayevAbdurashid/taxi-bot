@@ -27,8 +27,8 @@ function Header() {
         <BackButton />
 
         <Link to="/driver/dashboard">
-          <Heading textDecoration={"underline"} size="md" textAlign={"center"}>
-            Asosiy menu
+          <Heading color={"green.400"} size="md" textAlign={"center"}>
+            Farovon Yol
           </Heading>
         </Link>
 

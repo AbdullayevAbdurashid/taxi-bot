@@ -1,7 +1,8 @@
 import { Box, Container, Heading } from "@chakra-ui/react";
 import { useLocation } from "react-router-dom";
 import Header from "./Header";
-
+import Footer from "./Footer";
+import BottomMenu from "./BottomMenu/BottomMenu";
 const Layout = ({ children, isHeader = true, ...args }) => {
   const location = useLocation();
 
@@ -10,7 +11,7 @@ const Layout = ({ children, isHeader = true, ...args }) => {
   const pageTitle = queryParams.get("title") || null;
 
   return (
-    <Box as="main" w="full">
+    <Box w="full">
       {/* Set the document title */}
 
       {isHeader && <Header />}
@@ -19,18 +20,20 @@ const Layout = ({ children, isHeader = true, ...args }) => {
         {pageTitle && (
           <Heading
             as="h1"
-            size="xl"
+            size="lg"
             textAlign="left"
             mb={2}
-            textTransform="capitalize"
+            textTransform="uppercase"
             color="teal.500"
           >
             {pageTitle}
           </Heading>
         )}
-
-        {children}
+        <Box pb={20} as="main" minH={"100vh"}>
+          {children}
+        </Box>
       </Container>
+      <BottomMenu />
     </Box>
   );
 };

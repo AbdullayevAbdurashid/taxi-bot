@@ -7,6 +7,7 @@ import {
   VStack,
   HStack,
   Button,
+  Badge,
 } from "@chakra-ui/react";
 import Auth from "../../utils/hoc/Auth";
 import { useQuery } from "@tanstack/react-query";
@@ -59,9 +60,13 @@ function Profile() {
             fallbackSrc={placeholderImage}
             alt={`${user.first_name} ${user.last_name}`}
           />
+
           <VStack align="flex-start" spacing={1}>
-            <Text fontSize="xl" fontWeight="bold">
+            <Text fontSize="md" fontWeight="bold">
               {user.first_name} {user.last_name}
+              <Badge colorScheme={user.is_active ? "green" : "red"}>
+                {user.is_active ? "Active" : "Inactive"}
+              </Badge>
             </Text>
             <Text fontSize="md" color="gray.600">
               {user.phone_number}
@@ -69,9 +74,6 @@ function Profile() {
             <Text fontSize="lg" color="teal.500" fontWeight="bold">
               Xisob: {user.balance} UZS
             </Text>
-            <Button colorScheme={user.is_active ? "green" : "red"}>
-              {user.is_active ? "Active" : "Inactive"}
-            </Button>
           </VStack>
         </HStack>
         <Box w="full">

@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
 //@ts-nocheck
-import { background, extendTheme } from "@chakra-ui/react";
+import { extendTheme } from "@chakra-ui/react";
 import "@fontsource-variable/inter";
+import '@fontsource/poppins';
 const theme = extendTheme({
   config: {
     initialColorMode: "dark",
@@ -11,12 +12,12 @@ const theme = extendTheme({
   initialColorMode: 'dark',
   useSystemColorMode: true,
   colors: {
-    primary: "#68D391",
-    secondary: "#319795",
+    primary: "#38A169",
+    secondary: "#38B2AC",
   },
   fonts: {
     body: "'Inter', sans-serif",
-    heading: "'Inter', sans-serif",
+    heading: "'Poppins', sans-serif",
   },
   styles: {
     global: (props) => ({

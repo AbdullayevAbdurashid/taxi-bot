@@ -30,7 +30,7 @@ function ProfileMenu() {
         <MenuItem as={Link} to={"/driver/profile"} icon={<FaUser />}>
           Profilga o'tish
         </MenuItem>
-        <MenuItem as={Link} to={"/driver/profile"} icon={<CalendarIcon />}>
+        <MenuItem as={Link} to={"/driver/orders"} icon={<CalendarIcon />}>
           Olingan zakazlar
         </MenuItem>
         <MenuItem onClick={logout} icon={<UnlockIcon />}>

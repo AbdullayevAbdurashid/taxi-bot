@@ -1,6 +1,5 @@
-// SearchPage.js
 import { useState } from "react";
-import { VStack, Box, Spinner } from "@chakra-ui/react";
+import { VStack, Box, Spinner, Text } from "@chakra-ui/react";
 import ConfirmationModal from "../../components/Modals/ConfirmationModal";
 import ResultItem from "../../components/Common/ResultItem";
 import CitySelector from "../../components/Forms/CitySelector";
@@ -12,7 +11,7 @@ import Layout from "../../components/Layout";
 const SearchPage = () => {
   const { user, loading: userLoading, error: userError } = useDriver();
   const [results, setResults] = useState([]);
-  const [show, setIsShow] = useState(false);
+  const [show, setShow] = useState(false);
   const [selectedRequestId, setSelectedRequestId] = useState(null);
   const [confirmationOpen, setConfirmationOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -31,13 +30,13 @@ const SearchPage = () => {
       setLoading(false);
     }
   };
+
   const handleShowPhoneNumber = (requestId) => {
     setSelectedRequestId(requestId);
     setConfirmationOpen(true);
   };
 
   const confirmShowPhoneNumber = async () => {
-    console.log("wtf");
     try {
       const token = localStorage.getItem("accessToken");
       if (!token) {
@@ -53,18 +52,19 @@ const SearchPage = () => {
       );
 
       if (response) {
-        setIsShow(true);
-        alert(`Telefon raqami pastdagi jadvalda chiqadi`);
+        setShow(true);
+        alert("Telefon raqami pastdagi jadvalda chiqadi");
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error confirming phone number:", error);
     } finally {
       setConfirmationOpen(false);
     }
   };
 
   if (userLoading) return <Spinner size="lg" />;
-  if (userError) return <p>Error fetching user profile</p>;
+  if (userError) return <Text>Error fetching user profile</Text>;
+
   return (
     <Layout>
       <VStack spacing={4} align="stretch">
@@ -76,14 +76,14 @@ const SearchPage = () => {
             isLoading={loading}
           />
         </Box>
-        {results.length === 0 ? <h1>Hech narsa topilmadi</h1> : null}
+        {results.length === 0 && !loading && <Text>Hech narsa topilmadi</Text>}
         {loading ? (
           <Spinner size="lg" />
         ) : (
           <Box>
-            {results.map((result, indx) => (
+            {results.map((result, index) => (
               <ResultItem
-                index={indx}
+                index={index}
                 key={result.id}
                 result={result}
                 showPhoneNumber={show}
@@ -92,9 +92,8 @@ const SearchPage = () => {
             ))}
           </Box>
         )}
-
         <ConfirmationModal
-          message={`Telefon raqamni ko'rishni tasdiqlaysizmi?Balansingizdan 7500 so'm ayriladi'`}
+          message="Telefon raqamni ko'rishni tasdiqlaysizmi? Balansingizdan 7500 so'm ayriladi."
           isOpen={confirmationOpen}
           onClose={() => setConfirmationOpen(false)}
           onConfirm={confirmShowPhoneNumber}
