@@ -1,5 +1,5 @@
 // src/components/VerifyDriver.js
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -16,11 +16,18 @@ import { useToast } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { verifyDriver } from "../../api/driverService";
 import Layout from "../../components/Layout";
+
 const VerifyDriver = () => {
   const navigate = useNavigate();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const token = localStorage.getItem("accessToken");
+  useEffect(() => {
+    if (token) {
+      navigate("/driver/dashboard");
+    }
+  }, [token, navigate]);
   const toast = useToast();
 
   const handleSubmit = async (e) => {

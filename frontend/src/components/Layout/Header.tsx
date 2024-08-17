@@ -1,8 +1,9 @@
-import { Flex, Heading, IconButton, useColorMode } from "@chakra-ui/react";
+import {} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { SunIcon, MoonIcon } from "@chakra-ui/icons";
-import { FaUser } from "react-icons/fa";
 import BackButton from "../Common/BackButton";
+import { Flex, Heading, IconButton, useColorMode } from "@chakra-ui/react";
+import ProfileMenu from "../Common/ProfileMenu";
 function Header() {
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -39,16 +40,7 @@ function Header() {
           size="md"
           onClick={toggleColorMode}
         />
-        <IconButton
-          icon={<FaUser />}
-          aria-label="Profile"
-          borderRadius={"xl"}
-          // variant={colorMode === "dark" ? "" : ""}
-          colorScheme="teal"
-          size="md"
-          as={Link}
-          to="/driver/profile" // Replace with your profile link
-        />
+        <ProfileMenu />
       </Flex>
     </nav>
   );
