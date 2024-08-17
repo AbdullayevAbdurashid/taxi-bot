@@ -8,7 +8,7 @@ import { lazy, Suspense } from "react";
 import LoadingOverlay from "./components/Common/LoadingOverlay";
 
 // Lazy load components
-const VerifyDriver = lazy(() => import("./pages/Driver/VerifyDriver"));
+const DriverLogin = lazy(() => import("./pages/Driver/DriverLogin"));
 const DriverDashboard = lazy(() => import("./pages/Driver/DriverDashboard"));
 const Register = lazy(() => import("./pages/Driver/Register"));
 const SearchPage = lazy(() => import("./pages/Driver/GetUser"));
@@ -20,7 +20,7 @@ const DriverOrders = lazy(() => import("./pages/Driver/DriverOrders"));
 
 const routes = [
   { path: "/", element: <DriverDashboard /> },
-  { path: "/driver/login", element: <VerifyDriver /> },
+  { path: "/driver/login", element: <DriverLogin /> },
   { path: "/driver/register", element: <Register /> },
   { path: "/driver/user/add", element: <TransportForm isPost={false} /> },
   { path: "/driver/user/get", element: <SearchPage /> },

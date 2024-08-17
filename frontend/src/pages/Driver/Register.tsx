@@ -73,7 +73,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <Layout isHeader={false} centerContent>
+    <Layout isHeader={false} isBottom={false} centerContent>
       <Box p={5} shadow="md" borderWidth="1px" borderRadius="md">
         <Heading as="h3" size="md" mb={4}>
           <chakra.span>Ro'yxatdan o'tish</chakra.span>

@@ -86,9 +86,6 @@ importers:
       react-router-dom:
         specifier: ^6.23.1
         version: 6.26.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-telegram-login:
-        specifier: ^1.1.2
-        version: 1.1.2(react@18.3.1)
       socket.io:
         specifier: ^4.7.5
         version: 4.7.5
@@ -2393,11 +2390,6 @@ packages:
     peerDependenciesMeta:
       '@types/react':
         optional: true
-
-  react-telegram-login@1.1.2:
-    resolution: {integrity: sha512-pDP+bvfaklWgnK5O6yvZnIwgky0nnYUU6Zhk0EjdMSkPsLQoOzZRsXIoZnbxyBXhi7346bsxMH+EwwJPTxClDw==}
-    peerDependencies:
-      react: ^16.13.1
 
   react-transition-group@4.4.5:
     resolution: {integrity: sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==}
@@ -5465,10 +5457,6 @@ snapshots:
       tslib: 2.6.3
     optionalDependencies:
       '@types/react': 18.3.3
-
-  react-telegram-login@1.1.2(react@18.3.1):
-    dependencies:
-      react: 18.3.1
 
   react-transition-group@4.4.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:

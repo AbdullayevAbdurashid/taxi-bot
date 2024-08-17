@@ -16,8 +16,8 @@ const theme = extendTheme({
     secondary: "#38B2AC",
   },
   fonts: {
-    body: "'Inter', sans-serif",
-    heading: "'Poppins', sans-serif",
+    body: "Inter, sans-serif",
+    heading: "Rubik, sans-serif",
   },
   styles: {
     global: (props) => ({

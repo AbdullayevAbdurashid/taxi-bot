@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import BottomMenu from "./BottomMenu/BottomMenu";
-const Layout = ({ children, isHeader = true, ...args }) => {
+const Layout = ({ children, isHeader = true, isBottom = true, ...args }) => {
   const location = useLocation();
 
   // Extract the title from the query parameter
@@ -33,7 +33,7 @@ const Layout = ({ children, isHeader = true, ...args }) => {
           {children}
         </Box>
       </Container>
-      <BottomMenu />
+      {isBottom && <BottomMenu />}
     </Box>
   );
 };

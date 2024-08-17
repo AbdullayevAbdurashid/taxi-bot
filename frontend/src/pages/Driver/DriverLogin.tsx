@@ -17,7 +17,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { verifyDriver } from "../../api/driverService";
 import Layout from "../../components/Layout";
 
-const VerifyDriver = () => {
+const DriverLogin = () => {
   const navigate = useNavigate();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
@@ -65,7 +65,7 @@ const VerifyDriver = () => {
   };
 
   return (
-    <Layout centerContent pt={20} isHeader={false}>
+    <Layout centerContent pt={20} isHeader={false} isBottom={false}>
       <Box p={5} shadow="md" borderWidth="1px" borderRadius="md">
         <Heading as="h3" size="md" mb={4}>
           <chakra.span color="green.300">Assalomu alaykum,</chakra.span> sizni
@@ -113,4 +113,4 @@ const VerifyDriver = () => {
   );
 };
 
-export default VerifyDriver;
+export default DriverLogin;
