@@ -9,11 +9,11 @@ declare global {
   }
 }
 
-const tg = window.Telegram.WebApp;
+const tg = window.Telegram?.WebApp||null;
 
 
 export default function useTelegram() {
-  const [user, setTgUser] = useState<any>(tg.initDataUnsafe?.user);
+  const [user, setTgUser] = useState<any>(tg?.initDataUnsafe?.user);
   const setUser = (newUser: any) => {
     localStorage.setItem("user", JSON.stringify({...newUser, phone:undefined})), setTgUser(newUser  );
   };

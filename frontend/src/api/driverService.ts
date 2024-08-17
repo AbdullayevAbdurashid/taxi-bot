@@ -39,7 +39,7 @@ export const verifyDriver = async (
     });
     return response;
   } catch (error: any) {
-    throw new Error(error.detail || 'Xatolik yuz berdi');
+    throw new Error(error || 'Xatolik yuz berdi');
   }
 };
 
@@ -77,5 +77,5 @@ return apiMethods.post("/users/register/",formData, "" ,isFormData )
 
 }
 export const fetchDriverOrders = async (token) => {
-  return apiMethods.get('/user/getrequests/',token);
+  return apiMethods.get('/getrequests/',token);
 };

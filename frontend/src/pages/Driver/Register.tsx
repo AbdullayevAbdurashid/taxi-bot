@@ -15,44 +15,40 @@ import { Link } from "react-router-dom";
 import Layout from "../../components/Layout";
 import { registerNewDriver } from "../../api/driverService";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { registerSchema } from "../../utils/driverValidation";
 const RegisterForm = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
-    passportImage: null,
-    licenseImage: null,
-  });
   const toast = useToast();
   const [loading, setLoading] = useState(false);
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: files ? files[0] : value,
-    }));
-  };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm({
+    resolver: yupResolver(registerSchema),
+  });
+
+  const onSubmit = async (data) => {
     setLoading(true);
     const formDataToSend = new FormData();
-
-    // Append all formData keys to formDataObj
-    formDataToSend.append("first_name", formData.firstName);
-    formDataToSend.append("last_name", formData.lastName);
-    formDataToSend.append("phone_number", formData.phoneNumber);
-    formDataToSend.append("passport_photo", formData.passportImage);
-    formDataToSend.append("prava_photo", formData.licenseImage);
+    formDataToSend.append("first_name", data.firstName);
+    formDataToSend.append("last_name", data.lastName);
+    formDataToSend.append("phone_number", data.phoneNumber);
+    formDataToSend.append("passport_photo", data.passportImage[0]);
+    formDataToSend.append("prava_photo", data.licenseImage[0]);
 
     try {
       const response = await registerNewDriver(formDataToSend); // API call
+      console.log(response);
       if (response) {
         toast({
           title: "Sorov yuborildi!",
           description:
-            "Bizning operatorlar sizning sorovingizni tez orada korib chiqadi va telefoningizga parol yuborad",
+            "Bizning operatorlar sizning sorovingizni tez orada ko'rib chiqadi va telefoningizga parol yuboradi.",
           status: "success",
           duration: 5000,
           isClosable: true,
@@ -88,54 +84,78 @@ const RegisterForm = () => {
             <Link to={"/driver/login"}> Kirish</Link>
           </chakra.span>
         </Text>
-        <form onSubmit={handleSubmit}>
-          <FormControl id="firstName" mb={4}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FormControl
+            id="firstName"
+            mb={4}
+            isInvalid={errors.firstName ? true : false}
+          >
             <FormLabel>Ismingiz</FormLabel>
-            <Input
-              name="firstName"
-              type="text"
-              value={formData.firstName}
-              onChange={handleChange}
-            />
+            <Input name="firstName" type="text" {...register("firstName")} />
+            {errors.firstName && (
+              <Text color="red.500">{errors.firstName.message}</Text>
+            )}
           </FormControl>
-          <FormControl id="lastName" mb={4}>
+          <FormControl
+            id="lastName"
+            mb={4}
+            isInvalid={errors.lastName ? true : false}
+          >
             <FormLabel>Familiyangiz</FormLabel>
-            <Input
-              name="lastName"
-              type="text"
-              value={formData.lastName}
-              onChange={handleChange}
-            />
+            <Input name="lastName" type="text" {...register("lastName")} />
+            {errors.lastName && (
+              <Text color="red.500">{errors.lastName.message}</Text>
+            )}
           </FormControl>
-          <FormControl id="phoneNumber" mb={4}>
+          <FormControl
+            id="phoneNumber"
+            mb={4}
+            isInvalid={errors.phoneNumber ? true : false}
+          >
             <FormLabel>Telefon Raqamingiz</FormLabel>
             <InputGroup>
               <Input
                 placeholder="+998"
                 name="phoneNumber"
                 type="tel"
-                value={formData.phoneNumber}
-                onChange={handleChange}
+                {...register("phoneNumber")}
               />
             </InputGroup>
+            {errors.phoneNumber && (
+              <Text color="red.500">{errors.phoneNumber.message}</Text>
+            )}
           </FormControl>
-          <FormControl id="passportImage" mb={4}>
+          <FormControl
+            id="passportImage"
+            mb={4}
+            isInvalid={errors.passportImage ? true : false}
+          >
             <FormLabel>Passportingizni yuklang</FormLabel>
             <Input
               name="passportImage"
               type="file"
               accept="image/*"
-              onChange={handleChange}
+              {...register("passportImage")}
             />
+            {errors.passportImage && (
+              <Text color="red.500">{errors.passportImage.message}</Text>
+            )}
           </FormControl>
-          <FormControl id="licenseImage" mb={4}>
-            <FormLabel>Haydovchilik guvoxnomasini yuklang</FormLabel>
+          <FormControl
+            id="licenseImage"
+            mb={4}
+            isInvalid={errors.licenseImage ? true : false}
+          >
+            <FormLabel>Haydovchilik guvohnomasini yuklang</FormLabel>
             <Input
               name="licenseImage"
               type="file"
               accept="image/*"
-              onChange={handleChange}
+              {...register("licenseImage")}
             />
+            {errors.licenseImage && (
+              <Text color="red.500">{errors.licenseImage.message}</Text>
+            )}
           </FormControl>
           <Button
             isLoading={loading}
