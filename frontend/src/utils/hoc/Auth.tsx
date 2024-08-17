@@ -6,12 +6,12 @@ const Auth = (WrappedComponent) => {
   return (props) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const toast = useToast();
-    const accessToken = sessionStorage.getItem("accessToken");
+    const accessToken = localStorage.getItem("accessToken");
 
     if (!accessToken) {
       toast({
         title: "Not Authenticated",
-        description: "You are not authenticated. Redirecting to login...",
+        description: "Iltimos qaytadan registratsiyadan o'ting...",
         status: "error",
         duration: 5000,
         isClosable: true,

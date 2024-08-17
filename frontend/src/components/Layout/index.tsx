@@ -6,7 +6,12 @@ const Layout = ({ children, isHeader = true, ...args }) => {
     <Box as="main" w="full">
       {isHeader && <Header />}
 
-      <Container {...args} maxW="sm" pt={20} centerContent>
+      <Container
+        {...args}
+        maxW={{ base: "100%", md: "2xl" }}
+        pt={20}
+        centerContent
+      >
         {children}
       </Container>
     </Box>

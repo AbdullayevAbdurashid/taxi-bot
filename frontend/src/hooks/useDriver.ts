@@ -9,7 +9,7 @@ const fetchProfile = async (token: string | null) => {
 
 const useDriver = () => {
   // Fetch token from session storage
-  const token = sessionStorage.getItem("accessToken");
+  const token = localStorage.getItem("accessToken");
 
   // Use React Query to fetch user profile
   const { data: user, error, isLoading, isError } = useQuery({

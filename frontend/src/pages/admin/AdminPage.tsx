@@ -5,7 +5,7 @@ const AdminPage = () => {
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    sessionStorage.setItem("admin", "true");
+    localStorage.setItem("admin", "true");
     navigate("/admin/drivers");
   };
 

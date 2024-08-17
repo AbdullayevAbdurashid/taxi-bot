@@ -43,7 +43,7 @@ const GetParcel = () => {
 
   const confirmShowPhoneNumber = async () => {
     try {
-      const token = sessionStorage.getItem("accessToken");
+      const token = localStorage.getItem("accessToken");
       if (!token) {
         console.error("No token found");
         return;

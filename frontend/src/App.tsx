@@ -34,9 +34,17 @@ const App = () => {
         <Route path="/order-success" element={<OrderSuccessPage />} />
         <Route path="/driver/login" element={<VerifyDriver />} />
         <Route path="/driver/register" element={<Register />} />
-        <Route path="/driver/user/add" element={<TransportForm />} />
+        <Route
+          path="/driver/user/add"
+          element={<TransportForm isPost={false} />}
+        />
         <Route path="/driver/user/get" element={<SearchPage />} />
         <Route path="/driver/parcel/get" element={<GetParcel />} />
+        <Route
+          path="/driver/parcel/add"
+          element={<TransportForm isPost={true} />}
+        />
+
         <Route path="/404" element={<NotFoundPage />}></Route>
         <Route path="*" element={<Navigate to="/404" />} />
         <Route path="/driver/dashboard" element={<DriverDashboard />} />

@@ -41,7 +41,7 @@ export const categories: Category[] = [
     name: "Pochta berish",
     bgColor: "red.400",
     hoverBgColor: "red.200",
-    url: "/driver/post/add",
+    url: "/driver/parcel/add",
     icon: MdOutlineOutbox,
   },
 ];

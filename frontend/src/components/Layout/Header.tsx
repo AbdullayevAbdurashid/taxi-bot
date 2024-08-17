@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { SunIcon, MoonIcon } from "@chakra-ui/icons";
 import { FaUser } from "react-icons/fa";
 import BackButton from "../Common/BackButton";
-import { useColorModeValue } from "@chakra-ui/react";
 function Header() {
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -14,7 +13,7 @@ function Header() {
         left="50%"
         transform="translateX(-50%)"
         top={0}
-        maxW={"sm"}
+        maxW={{ base: "100%", md: "2xl" }}
         width={"100%"}
         px={4}
         py={2}

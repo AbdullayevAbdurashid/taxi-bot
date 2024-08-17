@@ -6,12 +6,7 @@ import ResultItem from "../../components/Common/ResultItem";
 import CitySelector from "../../components/Forms/CitySelector";
 import { originalWhereOptions, originalWhereToOptions } from "../../db/options";
 import useDriver from "../../hooks/useDriver";
-import {
-  fetchSearchResults,
-  postGetRequest,
-  // fetchGetRequests,
-  // fetchRequestDetails,
-} from "../../api/driverService";
+import { fetchSearchResults, postGetRequest } from "../../api/driverService";
 import Layout from "../../components/Layout";
 
 const SearchPage = () => {
@@ -44,7 +39,7 @@ const SearchPage = () => {
   const confirmShowPhoneNumber = async () => {
     console.log("wtf");
     try {
-      const token = sessionStorage.getItem("accessToken");
+      const token = localStorage.getItem("accessToken");
       if (!token) {
         console.error("No token found");
         return;

@@ -2,7 +2,7 @@ import { Box, Flex, Icon, Text, Container } from "@chakra-ui/react";
 import { FaUser, FaRss, FaCar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 const Sidebar = ({ children }) => {
-  const admin = sessionStorage.getItem("admin");
+  const admin = localStorage.getItem("admin");
 
   if (!admin) {
     return <Container>Not allowd</Container>;

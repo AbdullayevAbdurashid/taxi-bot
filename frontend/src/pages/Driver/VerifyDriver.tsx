@@ -30,8 +30,8 @@ const VerifyDriver = () => {
       const response = await verifyDriver("+998" + phoneNumber, password);
       if (response.access) {
         const { access, refresh } = response;
-        sessionStorage.setItem("accessToken", access);
-        sessionStorage.setItem("refreshToken", refresh);
+        localStorage.setItem("accessToken", access);
+        localStorage.setItem("refreshToken", refresh);
         setLoading(false);
         navigate("/driver/dashboard");
       } else {

@@ -13,6 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchDriverOrders } from "../../api/driverService";
 import Layout from "../../components/Layout";
 import Orders from "../../components/Data/OrdersTable";
+import LoadingOverlay from "../../components/Common/LoadingOverlay";
 const fetchOrders = async (token: string | null) => {
   if (!token) throw new Error("No access token found");
   return await fetchDriverOrders(token);
@@ -23,7 +24,7 @@ function Profile() {
   const placeholderImage = "https://via.placeholder.com/100";
 
   // Fetch token from session storage
-  const token = sessionStorage.getItem("accessToken");
+  const token = localStorage.getItem("accessToken");
 
   // Use React Query to fetch driver orders
   const {
@@ -37,11 +38,10 @@ function Profile() {
   });
 
   if (loading) {
-    return "Loading";
+    return <LoadingOverlay />;
   }
-  console.log(orders);
   if (isLoading) {
-    return "Loading orders...";
+    return <LoadingOverlay />;
   }
 
   if (error) {

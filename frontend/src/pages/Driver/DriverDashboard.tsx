@@ -26,12 +26,7 @@ const DriverDashboard = () => {
     return "Iltimos dasturga qaytadan kring";
   }
   return (
-    <Layout
-      maxW={{ base: "100%", md: "xl" }}
-      centerContent
-      minHeight="100vh"
-      py={{ base: 5, md: 10 }}
-    >
+    <Layout centerContent minHeight="100vh" py={{ base: 5, md: 0 }}>
       <Box
         p={5}
         shadow="md"

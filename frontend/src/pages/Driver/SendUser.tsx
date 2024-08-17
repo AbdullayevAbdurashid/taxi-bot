@@ -1,4 +1,3 @@
-// TransportForm.js
 import { useForm } from "react-hook-form";
 import {
   Box,
@@ -19,13 +18,17 @@ import { sendNewUser } from "../../api/driverService";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const TransportForm = (isPost) => {
+const TransportForm = ({ isPost }) => {
   const toast = useToast();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const { register, handleSubmit, watch, setValue } = useForm();
+  const where = watch("where");
+  const to = watch("to");
+
   const onSubmit = async (data) => {
     setIsLoading(true);
-    const token = sessionStorage.getItem("accessToken");
+    const token = localStorage.getItem("accessToken");
     const response = await sendNewUser(data, token);
     if (response) {
       toast({
@@ -41,9 +44,6 @@ const TransportForm = (isPost) => {
       }, 2100);
     }
   };
-  const { register, handleSubmit, watch, setValue } = useForm();
-  const where = watch("where");
-  const to = watch("to");
 
   const handleChangeWhere = (e) => {
     setValue("where", e.target.value);
@@ -57,6 +57,12 @@ const TransportForm = (isPost) => {
     <Layout>
       <Box p={5} shadow="md" borderWidth="1px" borderRadius="md">
         <form onSubmit={handleSubmit(onSubmit)}>
+          <Input
+            type="hidden"
+            {...register("request_type")}
+            value={isPost ? "pochta_berish" : "yolovchi_berish"}
+          />
+
           <FormControl id="where" mb={4}>
             <FormLabel>Qayerdan:</FormLabel>
             <Select {...register("where")} onChange={handleChangeWhere}>
