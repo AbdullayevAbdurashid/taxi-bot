@@ -46,6 +46,22 @@ const theme = extendTheme({
         },
       }),
     },
+    InputLeftAddon: {
+      baseStyle: (props) => ({
+        field: {
+          borderColor: props.colorMode === "dark" ? "teal.500" : "blue.500",
+          _hover: {
+            borderColor: props.colorMode === "dark" ? "teal.400" : "blue.400",
+          },
+          _focus: {
+            borderColor: props.colorMode === "dark" ? "teal.300" : "blue.300",
+            boxShadow: `0 0 0 1px ${
+              props.colorMode === "dark" ? "teal.300" : "blue.300"
+            }`,
+          },
+        },
+      }),
+    },
     Select  : {
       baseStyle: (props) => ({
         field: {
@@ -66,8 +82,8 @@ const theme = extendTheme({
     Button: {
       // Base style
       baseStyle: {
-        fontWeight: "bold",
-        borderRadius: "md",
+        fontWeight: "500",
+        borderRadius: "lg",
       },
 
       // Styles for different variants

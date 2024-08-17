@@ -10,6 +10,7 @@ import {
   Text,
   chakra,
   useToast,
+  InputLeftAddon,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import Layout from "../../components/Layout";
@@ -37,7 +38,7 @@ const RegisterForm = () => {
     const formDataToSend = new FormData();
     formDataToSend.append("first_name", data.firstName);
     formDataToSend.append("last_name", data.lastName);
-    formDataToSend.append("phone_number", data.phoneNumber);
+    formDataToSend.append("phone_number", "+998" + data.phoneNumber);
     formDataToSend.append("passport_photo", data.passportImage[0]);
     formDataToSend.append("prava_photo", data.licenseImage[0]);
 
@@ -114,8 +115,8 @@ const RegisterForm = () => {
           >
             <FormLabel>Telefon Raqamingiz</FormLabel>
             <InputGroup>
+              <InputLeftAddon borderColor={"black"}>+998</InputLeftAddon>
               <Input
-                placeholder="+998"
                 name="phoneNumber"
                 type="tel"
                 {...register("phoneNumber")}

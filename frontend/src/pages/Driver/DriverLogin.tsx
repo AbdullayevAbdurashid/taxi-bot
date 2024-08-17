@@ -73,9 +73,9 @@ const DriverLogin = () => {
         </Heading>
         <form onSubmit={handleSubmit}>
           <FormControl id="phoneNumber" mb={4}>
-            <FormLabel>Phone Number</FormLabel>
+            <FormLabel>Telefon raqamingiz</FormLabel>
             <InputGroup>
-              <InputLeftAddon>+998</InputLeftAddon>
+              <InputLeftAddon borderColor={"black"}>+998</InputLeftAddon>
               <Input
                 name="phoneNumber"
                 type="tel"
@@ -85,7 +85,7 @@ const DriverLogin = () => {
             </InputGroup>
           </FormControl>
           <FormControl id="password" mb={4}>
-            <FormLabel>Password</FormLabel>
+            <FormLabel>Parolingiz</FormLabel>
             <Input
               type="password"
               value={password}
