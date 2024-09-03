@@ -77,5 +77,5 @@ return apiMethods.post("/users/register/",formData, "" ,isFormData )
 
 }
 export const fetchDriverOrders = async (token) => {
-  return apiMethods.get('/getrequests/',token);
+  return apiMethods.get('/yolovchi-olish/',token);
 };

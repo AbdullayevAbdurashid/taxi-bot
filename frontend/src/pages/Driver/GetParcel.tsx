@@ -6,12 +6,7 @@ import ResultItem from "../../components/Common/ResultItem";
 import CitySelector from "../../components/Forms/CitySelector";
 import { originalWhereOptions, originalWhereToOptions } from "../../db/options";
 import useDriver from "../../hooks/useDriver";
-import {
-  fetchSearchResults,
-  postGetRequest,
-  // fetchGetRequests,
-  // fetchRequestDetails,
-} from "../../api/driverService";
+import { fetchSearchResults, postGetRequest } from "../../api/driverService";
 import Layout from "../../components/Layout";
 
 const GetParcel = () => {

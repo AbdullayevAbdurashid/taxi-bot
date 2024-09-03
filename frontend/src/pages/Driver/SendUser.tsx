@@ -15,10 +15,28 @@ import {
 } from "../../db/options";
 import Layout from "../../components/Layout";
 import { sendNewUser } from "../../api/driverService";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { ADMIN_TOKEN } from "../../db/constants";
 const TransportForm = ({ isPost }) => {
+  const queryParams = new URLSearchParams(location.search);
+  const isUser = queryParams.get("isUser") === "true";
+  const storage = isUser ? sessionStorage : localStorage;
+  const token = storage.getItem("accessToken");
+
+  useEffect(() => {
+    const tokenKey = isUser ? "accessToken" : "accessToken";
+    const storage = isUser ? sessionStorage : localStorage;
+
+    if (isUser) {
+      storage.setItem(tokenKey, ADMIN_TOKEN);
+    }
+
+    return () => {
+      storage.removeItem(tokenKey);
+    };
+  }, [isUser]);
+
   const toast = useToast();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -28,20 +46,22 @@ const TransportForm = ({ isPost }) => {
 
   const onSubmit = async (data) => {
     setIsLoading(true);
-    const token = localStorage.getItem("accessToken");
+
     const response = await sendNewUser(data, token);
     if (response) {
       toast({
         title: "Yolovchi  yuborildi!.",
-        description: "So'rovingiz tez orada korib chiqiladi.",
+        description: "So'rovingiz tez orada ko'rib chiqiladi.",
         status: "success",
         duration: 2000,
         isClosable: true,
       });
       setTimeout(() => {
         setIsLoading(false);
-        navigate("/driver/dashboard");
-      }, 2100);
+        if (!isUser) {
+          navigate("/driver/dashboard");
+        }
+      }, 1000);
     }
   };
 
@@ -54,7 +74,7 @@ const TransportForm = ({ isPost }) => {
   };
 
   return (
-    <Layout>
+    <Layout isHeader={!isUser} isBottom={!isUser}>
       <Box p={5} shadow="md" borderWidth="1px" borderRadius="md">
         <form onSubmit={handleSubmit(onSubmit)}>
           <Input

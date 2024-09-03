@@ -1,7 +1,6 @@
 import { Box, Container, Heading } from "@chakra-ui/react";
 import { useLocation } from "react-router-dom";
 import Header from "./Header";
-import Footer from "./Footer";
 import BottomMenu from "./BottomMenu/BottomMenu";
 const Layout = ({ children, isHeader = true, isBottom = true, ...args }) => {
   const location = useLocation();

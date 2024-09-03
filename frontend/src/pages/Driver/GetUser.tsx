@@ -11,7 +11,7 @@ import Layout from "../../components/Layout";
 const SearchPage = () => {
   const { user, loading: userLoading, error: userError } = useDriver();
   const [results, setResults] = useState([]);
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState<{ [key: number]: boolean }>({});
   const [selectedRequestId, setSelectedRequestId] = useState(null);
   const [confirmationOpen, setConfirmationOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -52,8 +52,7 @@ const SearchPage = () => {
       );
 
       if (response) {
-        setShow(true);
-        alert("Telefon raqami pastdagi jadvalda chiqadi");
+        setShow({ [selectedRequestId]: true });
       }
     } catch (error) {
       console.error("Error confirming phone number:", error);
@@ -64,7 +63,6 @@ const SearchPage = () => {
 
   if (userLoading) return <Spinner size="lg" />;
   if (userError) return <Text>Error fetching user profile</Text>;
-
   return (
     <Layout>
       <VStack spacing={4} align="stretch">
@@ -76,20 +74,21 @@ const SearchPage = () => {
             isLoading={loading}
           />
         </Box>
-        {results.length === 0 && !loading && <Text>Hech narsa topilmadi</Text>}
+        {!results && results.length === 0 && <Text>Hech narsa topilmadi</Text>}
         {loading ? (
           <Spinner size="lg" />
         ) : (
           <Box>
-            {results.map((result, index) => (
-              <ResultItem
-                index={index}
-                key={result.id}
-                result={result}
-                showPhoneNumber={show}
-                onShowPhoneNumber={() => handleShowPhoneNumber(result.id)}
-              />
-            ))}
+            {results &&
+              results.map((result, index) => (
+                <ResultItem
+                  index={index}
+                  key={result.id}
+                  result={result}
+                  showPhoneNumber={show[result.id]}
+                  onShowPhoneNumber={() => handleShowPhoneNumber(result.id)}
+                />
+              ))}
           </Box>
         )}
         <ConfirmationModal
