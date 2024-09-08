@@ -6,7 +6,6 @@ import {
   Image,
   VStack,
   HStack,
-  Button,
   Badge,
 } from "@chakra-ui/react";
 import Auth from "../../utils/hoc/Auth";

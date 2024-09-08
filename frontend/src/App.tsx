@@ -6,7 +6,6 @@ import {
 } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import LoadingOverlay from "./components/Common/LoadingOverlay";
-
 // Lazy load components
 const DriverLogin = lazy(() => import("./pages/Driver/DriverLogin"));
 const DriverDashboard = lazy(() => import("./pages/Driver/DriverDashboard"));
