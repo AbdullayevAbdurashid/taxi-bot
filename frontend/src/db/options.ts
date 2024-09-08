@@ -19,13 +19,24 @@ export const originalWhereOptions = [
   ];
   
   export const toshkentDistricts = [
-    "chilonzor",
-    "mirzo-ulugbek",
-    "shayhontohur",
-    "olmazor",
-    "sergeli",
-    "bektemir",
-    "m. gandi",
-    "m. yusuf",
-  ];
-  
+    "Chilonzor",
+    "Mirzo-Ulugbek",
+    "Shayhontohur",
+    "Olmazor",
+    "Sergeli",
+    "Bektemir",
+    "Mirobod",
+    "Yakkasaroy",
+    "Yashnobod",
+    "Uchtepa",
+    "Hamza (Yunusabad)",
+    "Yunusobod",
+    "Qibray",
+    "M. Gandi",
+    "M. Yusuf",
+    "Uchtepa",
+    "Yakkasaroy",
+    "Yashnobod",
+    "Hamza",
+    "Zangiota",
+];
