@@ -26,8 +26,8 @@ const CitySelector = ({
             render={({ field }) => (
               <Select {...field}>
                 {whereOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option.toUpperCase()}
+                  <option key={option.id} value={option.name_uz}>
+                    {option.name_uz.toUpperCase()}
                   </option>
                 ))}
               </Select>
@@ -43,9 +43,9 @@ const CitySelector = ({
             defaultValue={whereToOptions[0]}
             render={({ field }) => (
               <Select {...field}>
-                {whereToOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option.toUpperCase()}
+                {whereToOptions.map((option, indx) => (
+                  <option key={indx} value={option.name_uz}>
+                    {option.name_uz.toUpperCase()}
                   </option>
                 ))}
               </Select>

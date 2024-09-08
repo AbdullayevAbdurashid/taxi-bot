@@ -28,11 +28,6 @@ const useDriver = () => {
     console.error("isError", error); // Optionally log error
   }
 
-  if (!isLoading) {
-    if (!user) {
-      localStorage.removeItem("accessToken");
-    }
-  }
   return { user, loading: isLoading, error };
 };
 

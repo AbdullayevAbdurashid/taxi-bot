@@ -1,0 +1,16 @@
+[
+    {"id":"1","name_uz":"Qoraqalpogʻiston","name_oz":"Qoraqalpog‘iston Respublikasi","name_ru":"Республика Каракалпакстан"},
+    {"id":"2","name_uz":"Andijon","name_oz":"Andijon viloyati","name_ru":"Андижанская область"},
+    {"id":"3","name_uz":"Buxoro","name_oz":"Buxoro viloyati","name_ru":"Бухарская область"},
+    {"id":"4","name_uz":"Jizzax","name_oz":"Jizzax viloyati","name_ru":"Джизакская область"},
+    {"id":"5","name_uz":"Qashqadaryo","name_oz":"Qashqadaryo viloyati","name_ru":"Кашкадарьинская область"},
+    {"id":"6","name_uz":"Navoiy","name_oz":"Navoiy viloyati","name_ru":"Навоийская область"},
+    {"id":"7","name_uz":"Namangan","name_oz":"Namangan viloyati","name_ru":"Наманганская область"},
+    {"id":"8","name_uz":"Samarqand","name_oz":"Samarqand viloyati","name_ru":"Самаркандская область"},
+    {"id":"9","name_uz":"Surxondaryo","name_oz":"Surxandaryo viloyati","name_ru":"Сурхандарьинская область"},
+    {"id":"10","name_uz":"Sirdaryo","name_oz":"Sirdaryo viloyati","name_ru":"Сырдарьинская область"},
+    {"id":"11","name_uz":"Toshkent viloyati","name_oz":"Toshkent viloyati","name_ru":"Ташкентская область"},
+    {"id":"12","name_uz":"Farg'ona","name_oz":"Farg‘ona viloyati","name_ru":"Ферганская область"},
+    {"id":"13","name_uz":"Xorazm","name_oz":"Xorazm viloyati","name_ru":"Хорезмская область"},
+    {"id":"14","name_uz":"Toshkent shahri","name_oz":"Toshkent shahri","name_ru":"Город Ташкент"}
+]

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { VStack, Box, Spinner, Text } from "@chakra-ui/react";
 import ConfirmationModal from "../../components/Modals/ConfirmationModal";
 import ResultItem from "../../components/Common/ResultItem";
@@ -15,11 +15,14 @@ const SearchPage = () => {
   const [selectedRequestId, setSelectedRequestId] = useState(null);
   const [confirmationOpen, setConfirmationOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const [districts, setDistricts] = useState([]);
   const handleSearch = async (data) => {
     setLoading(true);
     try {
-      const response = await fetchSearchResults(data.where, data.whereTo);
+      const response = await fetchSearchResults(
+        data.where.toLowerCase(),
+        data.whereTo.toLowerCase()
+      );
       const filteredResults = response.filter(
         (result) => result.request_type === "yolovchi_berish"
       );
@@ -30,7 +33,20 @@ const SearchPage = () => {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    const fetchRegionsAndDistricts = async () => {
+      const regionsResponse = await fetch("/regions.json");
+      setLoading(true);
+      const regionsData = await regionsResponse.json();
+      setDistricts(regionsData);
 
+      setTimeout(() => {
+        setLoading(false);
+      }, 100);
+    };
+
+    fetchRegionsAndDistricts();
+  }, []);
   const handleShowPhoneNumber = (requestId) => {
     setSelectedRequestId(requestId);
     setConfirmationOpen(true);
@@ -67,12 +83,14 @@ const SearchPage = () => {
     <Layout>
       <VStack spacing={4} align="stretch">
         <Box p={5} shadow="md" borderWidth="1px" borderRadius="md">
-          <CitySelector
-            whereOptions={originalWhereOptions}
-            whereToOptions={originalWhereToOptions}
-            onSearch={handleSearch}
-            isLoading={loading}
-          />
+          {districts && (
+            <CitySelector
+              whereOptions={districts}
+              whereToOptions={districts}
+              onSearch={handleSearch}
+              isLoading={loading}
+            />
+          )}
         </Box>
         {!results && results.length === 0 && <Text>Hech narsa topilmadi</Text>}
         {loading ? (

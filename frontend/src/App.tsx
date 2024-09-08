@@ -11,7 +11,7 @@ const DriverLogin = lazy(() => import("./pages/Driver/DriverLogin"));
 const DriverDashboard = lazy(() => import("./pages/Driver/DriverDashboard"));
 const Register = lazy(() => import("./pages/Driver/Register"));
 const SearchPage = lazy(() => import("./pages/Driver/GetUser"));
-const TransportForm = lazy(() => import("./pages/Driver/SendUser"));
+const TransportForm = lazy(() => import("./pages/Driver/SendUser/SendUser"));
 const NotFoundPage = lazy(() => import("./pages/404"));
 const Profile = lazy(() => import("./pages/Driver/Profile"));
 const GetParcel = lazy(() => import("./pages/Driver/GetParcel"));
