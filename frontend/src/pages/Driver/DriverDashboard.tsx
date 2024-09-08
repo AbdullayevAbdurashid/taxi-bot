@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Box,
   Heading,
@@ -8,16 +7,15 @@ import {
   Text,
   VStack,
   HStack,
-  Icon,
 } from "@chakra-ui/react";
 import { categories } from "../../db/driverCategories";
 import CurrencyFormat from "react-currency-format";
 import { useNavigate } from "react-router-dom";
 import useDriver from "../../hooks/useDriver";
 import Layout from "../../components/Layout";
-import Auth from "../../utils/hoc/Auth";
 import LoadingOverlay from "../../components/Common/LoadingOverlay";
 import CategoryButton from "../../components/Common/CategoryButton";
+import Auth from "../../utils/hoc/Auth";
 const DriverDashboard = () => {
   const { user, loading } = useDriver();
   const textColor = useColorModeValue("gray.700", "gray.200");
@@ -26,8 +24,6 @@ const DriverDashboard = () => {
   const navigate = useNavigate();
 
   if (loading) return <LoadingOverlay />;
-  if (!user) return <Text>Iltimos dasturga qaytadan kiring</Text>;
-
   return (
     <Layout centerContent minHeight="100vh">
       <Box

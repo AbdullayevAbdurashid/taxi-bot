@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
-import { fetchUserProfile } from '../api/driverService';
+import { useQuery } from "@tanstack/react-query";
+import { fetchUserProfile } from "../api/driverService";
 
 // Define the query function for fetching the user profile
 const fetchProfile = async (token: string | null) => {
@@ -12,17 +12,27 @@ const useDriver = () => {
   const token = localStorage.getItem("accessToken");
 
   // Use React Query to fetch user profile
-  const { data: user, error, isLoading, isError } = useQuery({
-    queryKey: ['userProfile', token],
+  const {
+    data: user,
+    error,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["userProfile", token],
     queryFn: () => fetchProfile(token),
     enabled: !!token, // Only run the query if token is available
   });
 
   // Error handling
   if (isError) {
-    console.error(error); // Optionally log error
+    console.error("isError", error); // Optionally log error
   }
 
+  if (!isLoading) {
+    if (!user) {
+      localStorage.removeItem("accessToken");
+    }
+  }
   return { user, loading: isLoading, error };
 };
 

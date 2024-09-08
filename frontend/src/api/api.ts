@@ -36,7 +36,6 @@ async function api<T>({ url, method, data, token, isFormData }: ApiParams): Prom
   } catch (error: any) {
     if (error.response && error.response.data) {
       const errorData = error.response.data;
-      console.log(errorData);
 
       // Collect all error messages from the error object
       const errorMessages = Object.entries(errorData)
